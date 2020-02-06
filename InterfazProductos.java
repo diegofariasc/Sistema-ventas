@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
@@ -29,11 +30,15 @@ public class InterfazProductos extends JFrame implements View {
     JLabel              labelDescripcionEditarProducto;
     JLabel              labelDescripcionEliminarProducto;
     JLabel              labelDescripcionRegistrarAbastecimientoProducto;
+    JLabel              labelDescripcionBuscar;
     JButton             botonRegresar;
     JButton             botonNuevoProducto;
     JButton             botonEditarProducto;
     JButton             botonEliminarProducto;
     JButton             botonRegistrarAbastecimientoProducto;
+    JButton             botonBuscar;
+    JButton             botonQuitarFiltro;
+    JTextField          campoFiltrar;
     JTable              tablaProductos;
     DefaultTableModel   modeloTabla;
     TableColumn         columnaCodigo;
@@ -44,6 +49,7 @@ public class InterfazProductos extends JFrame implements View {
     TableColumn         columnaDisponibilidad;
     TableColumn         columnaUnidadVenta;
     JScrollPane         panelConScroll;
+    Color               colorEstilo;
 
     /************************************************
      * Constructor de la clase
@@ -51,10 +57,11 @@ public class InterfazProductos extends JFrame implements View {
     public InterfazProductos(){
         
         //Parámetros de la ventana
+        colorEstilo = new Color(13,62,145);
         setTitle("Sistema de ventas [Gestionar productos]");
         setSize(LARGO_VENTANA,ALTO_VENTANA);
         setLocation(200,80);
-        setBackground(new Color(5,21,48));
+        setBackground(colorEstilo);
         setLayout(null);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -77,7 +84,7 @@ public class InterfazProductos extends JFrame implements View {
         //Panel superior de la ventana
         panelTitulo = new JPanel();
         panelTitulo.setSize(LARGO_VENTANA,60);
-        panelTitulo.setBackground(new Color (13,62,145));
+        panelTitulo.setBackground(colorEstilo);
         panelTitulo.setLayout(null);
         add(panelTitulo);
 
@@ -86,6 +93,37 @@ public class InterfazProductos extends JFrame implements View {
         imagenVentana.setLocation(5,7);
         imagenVentana.setSize(40,40);
         panelTitulo.add(imagenVentana);
+
+        //Campo para filtrado por nombre
+        campoFiltrar = new JTextField();
+        campoFiltrar.setLocation(LARGO_VENTANA-245,79);
+        campoFiltrar.setSize(200,22);
+        add(campoFiltrar);
+
+        //Boton para buscar
+        botonBuscar = new JButton(new ImageIcon("Iconos/Icono_buscar.png"));
+        botonBuscar.setLocation(LARGO_VENTANA-44,79);
+        botonBuscar.setSize(21,21);
+        botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonBuscar.setBorderPainted(false);
+        botonBuscar.setFocusPainted(false);
+        botonBuscar.setBackground(colorEstilo);
+        botonBuscar.setToolTipText("Buscar productos que contengan el nombre dado");
+        add(botonBuscar);
+
+        //Boton para quitar filtro
+        botonQuitarFiltro = new JButton("Quitar filtro");
+        botonQuitarFiltro.setLocation(LARGO_VENTANA-130,61);
+        botonQuitarFiltro.setSize(100,20);
+        botonQuitarFiltro.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonQuitarFiltro.setForeground(new Color(84,14,0));
+        botonQuitarFiltro.setBorderPainted(false);
+        botonQuitarFiltro.setContentAreaFilled(false);
+        botonQuitarFiltro.setFocusPainted(false);
+        botonQuitarFiltro.setVisible(false);
+        botonQuitarFiltro.setFont(new Font("Segoe UI", Font.BOLD, 10));
+        botonQuitarFiltro.setToolTipText("Eliminar el filtrado de datos y volver a la vista completa");
+        add(botonQuitarFiltro);
 
         //Boton para registrar la entrada al almacen del producto
         botonRegistrarAbastecimientoProducto = new JButton(new ImageIcon("Iconos/Icono_registrarAbastecimientoProducto.png"));
@@ -152,6 +190,14 @@ public class InterfazProductos extends JFrame implements View {
         labelTitulo.setForeground(Color.WHITE);
         labelTitulo.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         panelTitulo.add(labelTitulo);
+
+        //Etiqueta para describir el funcionamiento de la busqueda
+        labelDescripcionBuscar = new JLabel("Busqueda por nombre");
+        labelDescripcionBuscar.setLocation(LARGO_VENTANA-245,61);
+        labelDescripcionBuscar.setSize(150,20);
+        labelDescripcionBuscar.setForeground(Color.DARK_GRAY);
+        labelDescripcionBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+        add(labelDescripcionBuscar);
 
         //Etiqueta para indicar el funcionamiento del boton regresar
         labelDescripcionRegresar = new JLabel("Regresar");
@@ -228,13 +274,13 @@ public class InterfazProductos extends JFrame implements View {
 
         //Tabla de datos 
         tablaProductos = new JTable(modeloTabla);
-        tablaProductos.setRowHeight(90);
-        tablaProductos.getColumnModel().getColumn(0).setPreferredWidth((LARGO_VENTANA-60)/12);
-        tablaProductos.getColumnModel().getColumn(1).setPreferredWidth((LARGO_VENTANA-60)/4);
-        tablaProductos.getColumnModel().getColumn(2).setPreferredWidth((LARGO_VENTANA-60)/6);
-        tablaProductos.getColumnModel().getColumn(2).setPreferredWidth((LARGO_VENTANA-60)/6);
-        tablaProductos.getColumnModel().getColumn(2).setPreferredWidth((LARGO_VENTANA-60)/6);
-        tablaProductos.getColumnModel().getColumn(2).setPreferredWidth((LARGO_VENTANA-60)/6);
+        tablaProductos.getColumnModel().getColumn(0).setPreferredWidth((LARGO_VENTANA-60)/8);
+        tablaProductos.getColumnModel().getColumn(1).setPreferredWidth((LARGO_VENTANA-60)/3);
+        tablaProductos.getColumnModel().getColumn(2).setPreferredWidth((LARGO_VENTANA-60)/4);
+        tablaProductos.getColumnModel().getColumn(3).setPreferredWidth((LARGO_VENTANA-60)/8);
+        tablaProductos.getColumnModel().getColumn(4).setPreferredWidth((LARGO_VENTANA-60)/8);
+        tablaProductos.getColumnModel().getColumn(5).setPreferredWidth((LARGO_VENTANA-60)/8);
+        tablaProductos.getColumnModel().getColumn(6).setPreferredWidth((LARGO_VENTANA-60)/8);
         tablaProductos.getColumnModel().getColumn(0).setHeaderValue("Codigo");
         tablaProductos.getColumnModel().getColumn(1).setHeaderValue("Descripcion");
         tablaProductos.getColumnModel().getColumn(2).setHeaderValue("Departamento");
@@ -247,7 +293,7 @@ public class InterfazProductos extends JFrame implements View {
         //Recuadro con opcion de scrolling para la tabla
         panelConScroll = new JScrollPane(tablaProductos);
         panelConScroll.setLocation(13,105);
-        panelConScroll.setSize(LARGO_VENTANA-47,ALTO_VENTANA-170);
+        panelConScroll.setSize(LARGO_VENTANA-35,ALTO_VENTANA-150);
         panelConScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 
         add(panelConScroll);
 
@@ -260,9 +306,13 @@ public class InterfazProductos extends JFrame implements View {
      */
     @Override
     public void setActionListener(final Controller theController) {
+        botonRegistrarAbastecimientoProducto.addActionListener(theController);
         botonNuevoProducto.addActionListener(theController);
+        botonEditarProducto.addActionListener(theController);
         botonEliminarProducto.addActionListener(theController);
         botonRegresar.addActionListener(theController);
+        botonBuscar.addActionListener(theController);
+        botonQuitarFiltro.addActionListener(theController);
     } //End setActionListener
 
 
