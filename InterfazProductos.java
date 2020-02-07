@@ -305,7 +305,7 @@ public class InterfazProductos extends JFrame implements View {
      * @param theController Controlador de la interfaz
      */
     @Override
-    public void setActionListener(final Controller theController) {
+    public void setActionListener(Controller theController) {
         botonRegistrarAbastecimientoProducto.addActionListener(theController);
         botonNuevoProducto.addActionListener(theController);
         botonEditarProducto.addActionListener(theController);

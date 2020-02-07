@@ -1,7 +1,7 @@
 public class Main{
     public static void main (String[] args){
 
-        InterfazProductos productos = new InterfazProductos();
+        InterfazAgregarProducto productos = new InterfazAgregarProducto();
         productos.iniciarInterfaz();
 
     } //End main
