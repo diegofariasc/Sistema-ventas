@@ -12,17 +12,12 @@ import java.util.Collections;
  * por el sistema
  */
 
-public class BaseDatosProductos implements Model {
+ @SuppressWarnings("serial")
+public class BaseDatosProductos extends ArrayList<Producto> implements Model {
 
-    private ArrayList<Producto> productos;
-
-    /************************************************
-    * Constructor de la clase
-    *************************************************/
     public BaseDatosProductos(){
-        productos = new ArrayList<Producto>();
-    } //End constructor
-
+        cargaDatosDelRepositorioALaEstructura();
+    } //End BaseDatosProductos
 
     /************************************************
     * Implementacion de la interfaz Model
@@ -37,7 +32,7 @@ public class BaseDatosProductos implements Model {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             
             //Leer base de datos de productos y guardarlo en el arraylist
-            productos = (ArrayList<Producto>) objectInputStream.readObject();
+            addAll((ArrayList<Producto>) objectInputStream.readObject());
 
             //Cerrar los flujos de entrada
             objectInputStream.close();
@@ -65,7 +60,7 @@ public class BaseDatosProductos implements Model {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             
             //Guardar arraylist
-            objectOutputStream.writeObject(productos);
+            objectOutputStream.writeObject(this);
 
             //Cerrar los flujos de entrada
             objectOutputStream.close();
@@ -77,22 +72,22 @@ public class BaseDatosProductos implements Model {
 
     @Override
     public void agregaDatosALaEstructura(int indice, Object dato) {
-        productos.add(indice,(Producto)dato);
+        add(indice,(Producto)dato);
     } //End agregaDatosALaEstructura
 
     @Override
     public void modificaDatosEnLaEstructura(int indice, Object dato) {
-        productos.set(indice,(Producto)dato);
+        set(indice,(Producto)dato);
     } //End modificaDatosEnLaEstructura
 
     @Override
     public void eliminaDatosDeLaEstructura(int indice) {
-        productos.remove(indice);
+        remove(indice);
     } //End eliminaDatosDeLaEstructura
 
     @Override
     public void ordenaLaEstructura() {
-        Collections.sort(productos);
+        Collections.sort(this);
     } //End ordenaLaEstructura
 
     @Override
@@ -102,19 +97,7 @@ public class BaseDatosProductos implements Model {
 
     @Override
     public boolean hayDatos() {
-        return !productos.isEmpty();
+        return !isEmpty();
     } //End hayDatos
-
-
-    /************************************************
-    * Coleccion de getters
-    *************************************************/ 
-    public Producto getProducto(int indice) { 
-        return productos.get(indice); 
-    } //End getProducto
-    
-    public int getCantidadProductos(){ 
-        return productos.size();
-    } // End getCantidadProductos
 
 } //End class

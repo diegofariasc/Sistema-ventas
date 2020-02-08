@@ -311,5 +311,11 @@ public class InterfazAgregarProducto extends JDialog implements View {
         setVisible(true);
     } //End iniciar interfaz
 
+    /**
+     * El metodo oculta la interfaz
+     */
+    public void ocultarInterfaz(){
+        setVisible(false);
+    } //End ocultarInterfaz    
     
 } //End class
