@@ -3,8 +3,9 @@ import javax.swing.JButton;
 
 public class ControllerInterfazProductos implements Controller {
 
-    private BaseDatosProductos modelProductos;
-    private InterfazProductos  viewProductos;
+    private BaseDatosProductos      modelProductos;
+    private InterfazProductos       viewProductos;
+
 
     /************************************************
     * Constructor de la clase
@@ -25,9 +26,9 @@ public class ControllerInterfazProductos implements Controller {
     } // End obtieneDatoDelModel
 
     @Override
-    public Object obtieneDatoDelView() {
-
-        return null;
+    public Integer obtieneDatoDelView() {
+        int columnaSeleccionada = viewProductos.tablaProductos.getSelectedRow();
+        return  columnaSeleccionada < 0 ? null : columnaSeleccionada ;
     } // End obtieneDatoDelView
 
     @Override
@@ -45,7 +46,7 @@ public class ControllerInterfazProductos implements Controller {
                 convertirUnidadVentaAString(producto.getUnidadVenta()),
                 String.format("$%.2f",producto.getPrecioCompra()),
                 String.format("$%.2f",producto.getPrecioVenta()),
-                String.format("$%.3f",producto.getCantidadDisponible()),
+                String.format("%.3f",producto.getCantidadDisponible()),
              }); //End addRow
         } //End for
 
@@ -54,8 +55,12 @@ public class ControllerInterfazProductos implements Controller {
     @Override
     public void solicitaActualizacionDelModel(String accion) {
         if (accion.equals("Eliminar")) {
-            modelProductos.eliminaDatosDeLaEstructura(viewProductos.tablaProductos.getSelectedRow());
+            modelProductos.eliminaDatosDeLaEstructura(obtieneDatoDelView());
         } //End if
+
+        //Guardar automaticamente tras actualizar el model
+        modelProductos.salvaDatosDeLaEstructuraAlRepositorio();
+
     } // End solicitaActualizacionDelModel
 
     @Override
@@ -63,11 +68,16 @@ public class ControllerInterfazProductos implements Controller {
 
         JButton boton = (JButton) evento.getSource();
 
+        if (boton == viewProductos.botonNuevoProducto){
+            InterfazAgregarProducto dialogoAgregarProducto = new InterfazAgregarProducto();
+            dialogoAgregarProducto.iniciarInterfaz();
+        } //End if
+
         //Si el boton eliminar fue el accionado
         if(boton == viewProductos.botonEliminarProducto)
         {
             //Revisar si hay datos en el model y si hay una fila seleccionada en la tabla
-            if (modelProductos.hayDatos() && viewProductos.tablaProductos.getSelectedRow() != -1){
+            if (modelProductos.hayDatos() && obtieneDatoDelView() != null){
 
                 //Proceder a la eliminacion
                 solicitaActualizacionDelModel("Eliminar");

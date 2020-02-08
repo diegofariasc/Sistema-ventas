@@ -54,9 +54,10 @@ public class InterfazAgregarProducto extends JDialog implements View {
         colorEstilo = new Color(13,62,145);
         setTitle("Registrar nuevo producto");
         setSize(LARGO_VENTANA,ALTO_VENTANA);
-        setLocation(200,80);
+        setLocation(400,160);
         setLayout(null);
         setResizable(false);
+        setModal(true);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         //Construir los componentes de la ventana

@@ -16,7 +16,6 @@ public class Main{
         // Inicializar tabla del view
         controllerProductos.actualizaElView();
 
-        // Iniciar ventana de productos
         viewProductos.iniciarInterfaz();
         
     } //End main

@@ -332,5 +332,5 @@ public class InterfazProductos extends JFrame implements View {
     public void ocultarInterfaz(){
         setVisible(false);
     } //End ocultarInterfaz
-    
+
 } //End class
