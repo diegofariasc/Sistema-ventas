@@ -94,7 +94,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         add(panelTitulo);
 
         //Imagen en la esquina superior izquierda
-        imagenVentana = new JLabel(new ImageIcon("Iconos/Icono_productos.png"));
+        imagenVentana = new JLabel(new ImageIcon("Iconos/Icono_puntoVenta.png"));
         imagenVentana.setLocation(5,7);
         imagenVentana.setSize(40,40);
         panelTitulo.add(imagenVentana);
