@@ -17,8 +17,8 @@ import javax.swing.table.TableColumn;
 @SuppressWarnings("serial")
 public class InterfazPuntoVenta extends JFrame implements View {
 
-    private static final int LARGO_VENTANA = 1000;
-    private static final int ALTO_VENTANA  = 600;
+    private static final int LARGO_VENTANA = 750;
+    private static final int ALTO_VENTANA  = 550;
 
     JPanel              panelTitulo;
     JLabel              labelNombreAplicacion;
@@ -34,6 +34,8 @@ public class InterfazPuntoVenta extends JFrame implements View {
     JButton             botonConsultarListaPrecios;
     JButton             botonBuscar;
     JTextField          campoBuscar;
+    JTextField          campoAgregar;
+    JTextField          campoRecibido;
     JTable              tablaProductos;
     DefaultTableModel   modeloTabla;
     TableColumn         columnaCantidad;
@@ -90,13 +92,58 @@ public class InterfazPuntoVenta extends JFrame implements View {
 
         //Campo para filtrado por nombre
         campoBuscar = new JTextField();
-        campoBuscar.setLocation(LARGO_VENTANA-245,79);
+        campoBuscar.setLocation(LARGO_VENTANA-245,110);
         campoBuscar.setSize(200,22);
         add(campoBuscar);
 
+        //Campo para filtrado por nombre
+        campoAgregar = new JTextField();
+        campoAgregar.setLocation(13,110);
+        campoAgregar.setSize(230,22);
+        add(campoAgregar);
+
+        //Campo para filtrado por nombre
+        campoRecibido = new JTextField("0.00");
+        campoRecibido.setLocation(303,483);
+        campoRecibido.setSize(105,26);
+        campoRecibido.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        add(campoRecibido);
+
+        //Campo para filtrado por nombre
+        campoAgregar = new JTextField("1");
+        campoAgregar.setLocation(258,110);
+        campoAgregar.setSize(60,22);
+        add(campoAgregar);
+
+        //Boton para buscar
+        botonBuscar = new JButton(new ImageIcon("Iconos/Icono_agregarVenta.png"));
+        botonBuscar.setText("Agregar");
+        botonBuscar.setLocation(325,110);
+        botonBuscar.setSize(95,21);
+        botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonBuscar.setFocusPainted(false);
+        botonBuscar.setBackground(colorEstilo);
+        botonBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        botonBuscar.setForeground(Color.WHITE);
+        botonBuscar.setToolTipText("Agregar el");
+        add(botonBuscar);
+
+        //Boton para buscar
+        botonBuscar = new JButton(new ImageIcon("Iconos/Icono_agregarVenta.png"));
+        botonBuscar.setText(" Finalizar");
+        botonBuscar.setLocation(LARGO_VENTANA-138,ALTO_VENTANA-73);
+        botonBuscar.setSize(115,30);
+        botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonBuscar.setFocusPainted(false);
+        botonBuscar.setBackground(colorEstilo);
+        botonBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        botonBuscar.setForeground(Color.WHITE);
+        botonBuscar.setToolTipText("Buscar productos que contengan el nombre dado");
+        add(botonBuscar);
+
         //Boton para buscar
         botonBuscar = new JButton(new ImageIcon("Iconos/Icono_buscar.png"));
-        botonBuscar.setLocation(LARGO_VENTANA-44,79);
+        botonBuscar.setLocation(LARGO_VENTANA-44,110);
         botonBuscar.setSize(21,21);
         botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonBuscar.setBorderPainted(false);
@@ -105,6 +152,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         botonBuscar.setToolTipText("Buscar productos que contengan el nombre dado");
         add(botonBuscar);
 
+        
         //Boton para registrar la entrada al almacen del producto
         botonConsultarListaPrecios = new JButton(new ImageIcon("Iconos/Icono_consultarPrecios.png"));
         botonConsultarListaPrecios.setLocation(LARGO_VENTANA-200,5);
@@ -117,23 +165,23 @@ public class InterfazPuntoVenta extends JFrame implements View {
         panelTitulo.add(botonConsultarListaPrecios);
 
         //Boton para editar producto
-        botonFinalizarVenta = new JButton(new ImageIcon("Iconos/Icono_finalizarVenta.png"));
+        botonFinalizarVenta = new JButton(new ImageIcon("Iconos/Icono_cancelarVenta.png"));
         botonFinalizarVenta.setLocation(LARGO_VENTANA-120,5);
         botonFinalizarVenta.setSize(35,35);
         botonFinalizarVenta.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonFinalizarVenta.setBorderPainted(false);
         botonFinalizarVenta.setContentAreaFilled(false);
-        botonFinalizarVenta.setToolTipText("Finalizar la venta actual");
+        botonFinalizarVenta.setToolTipText("Abortar la venta actual reiniciando el punto de venta");
         panelTitulo.add(botonFinalizarVenta);
 
         //Boton para quitar producto 
         botonEliminarProducto = new JButton(new ImageIcon("Iconos/Icono_quitarProductoVenta.png"));
-        botonEliminarProducto.setLocation(LARGO_VENTANA-65,5);
+        botonEliminarProducto.setLocation(LARGO_VENTANA-65,6);
         botonEliminarProducto.setSize(35,35);
         botonEliminarProducto.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonEliminarProducto.setBorderPainted(false);
         botonEliminarProducto.setContentAreaFilled(false);
-        botonEliminarProducto.setToolTipText("Eliminar el producto seleccionado de la venta actual");
+        botonEliminarProducto.setToolTipText("Quitar el producto seleccionado de la venta actual");
         panelTitulo.add(botonEliminarProducto);
 
         //Etiqueta con el nombre de la aplicacion
@@ -154,14 +202,64 @@ public class InterfazPuntoVenta extends JFrame implements View {
 
         //Etiqueta para describir el funcionamiento de la busqueda
         labelDescripcionBuscar = new JLabel("Busqueda por nombre");
-        labelDescripcionBuscar.setLocation(LARGO_VENTANA-245,61);
+        labelDescripcionBuscar.setLocation(LARGO_VENTANA-245,92);
         labelDescripcionBuscar.setSize(150,20);
         labelDescripcionBuscar.setForeground(Color.DARK_GRAY);
         labelDescripcionBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 10));
         add(labelDescripcionBuscar);
 
+        //Etiqueta para describir el funcionamiento de la busqueda
+        labelDescripcionBuscar = new JLabel("Ingresar codigo de articulo");
+        labelDescripcionBuscar.setLocation(13,92);
+        labelDescripcionBuscar.setSize(150,20);
+        labelDescripcionBuscar.setForeground(Color.DARK_GRAY);
+        labelDescripcionBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+        add(labelDescripcionBuscar);
+
+        //Etiqueta para describir el funcionamiento de la busqueda
+        labelDescripcionBuscar = new JLabel("Cantidad");
+        labelDescripcionBuscar.setLocation(258,92);
+        labelDescripcionBuscar.setSize(150,20);
+        labelDescripcionBuscar.setForeground(Color.DARK_GRAY);
+        labelDescripcionBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+        add(labelDescripcionBuscar);
+
+        //Etiqueta para describir el funcionamiento de la busqueda
+        labelDescripcionBuscar = new JLabel("Total de compra: $0.00");
+        labelDescripcionBuscar.setLocation(13,440);
+        labelDescripcionBuscar.setSize(400,40);
+        labelDescripcionBuscar.setForeground(new Color(51,51,51));
+        labelDescripcionBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        add(labelDescripcionBuscar);
+
+
+        //Etiqueta para describir el funcionamiento de la busqueda
+        labelDescripcionBuscar = new JLabel("Recibido: $");
+        labelDescripcionBuscar.setLocation(225,485);
+        labelDescripcionBuscar.setSize(400,20);
+        labelDescripcionBuscar.setForeground(new Color(51,51,51));
+        labelDescripcionBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        add(labelDescripcionBuscar);
+
+        //Etiqueta para describir el funcionamiento de la busqueda
+        labelDescripcionBuscar = new JLabel("Cantidad de artículos: 0");
+        labelDescripcionBuscar.setLocation(13,475);
+        labelDescripcionBuscar.setSize(400,40);
+        labelDescripcionBuscar.setForeground(Color.DARK_GRAY);
+        labelDescripcionBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        add(labelDescripcionBuscar);
+
+
+        //Etiqueta para describir el funcionamiento de la busqueda
+        labelDescripcionBuscar = new JLabel("×");
+        labelDescripcionBuscar.setLocation(243,108);
+        labelDescripcionBuscar.setSize(20,20);
+        labelDescripcionBuscar.setForeground(new Color(163,10,5));
+        labelDescripcionBuscar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
+        add(labelDescripcionBuscar);
+
         //Etiqueta para indicar el funcionamiento del boton eliminar
-        labelDescripcionEliminarProducto = new JLabel("Eliminar");
+        labelDescripcionEliminarProducto = new JLabel("Quitar");
         labelDescripcionEliminarProducto.setLocation(LARGO_VENTANA-73,37);
         labelDescripcionEliminarProducto.setSize(51,20);
         labelDescripcionEliminarProducto.setHorizontalAlignment(JLabel.CENTER);
@@ -170,7 +268,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         panelTitulo.add(labelDescripcionEliminarProducto);
 
         //Etiqueta para indicar el funcionamiento del boton editar
-        labelDescripcionFinalizarVenta = new JLabel("Finalizar");
+        labelDescripcionFinalizarVenta = new JLabel("Abortar");
         labelDescripcionFinalizarVenta.setLocation(LARGO_VENTANA-128,37);
         labelDescripcionFinalizarVenta.setSize(51,20);
         labelDescripcionFinalizarVenta.setHorizontalAlignment(JLabel.CENTER);
@@ -219,8 +317,8 @@ public class InterfazPuntoVenta extends JFrame implements View {
         tablaProductos.getColumnModel().getColumn(1).setPreferredWidth((LARGO_VENTANA-60)/6);
         tablaProductos.getColumnModel().getColumn(2).setPreferredWidth((LARGO_VENTANA-60)/3);
         tablaProductos.getColumnModel().getColumn(3).setPreferredWidth((LARGO_VENTANA-60)/6);
-        tablaProductos.getColumnModel().getColumn(4).setPreferredWidth((LARGO_VENTANA-60)/8);
-        tablaProductos.getColumnModel().getColumn(5).setPreferredWidth((LARGO_VENTANA-60)/8);
+        tablaProductos.getColumnModel().getColumn(4).setPreferredWidth((LARGO_VENTANA-60)/6);
+        tablaProductos.getColumnModel().getColumn(5).setPreferredWidth((LARGO_VENTANA-60)/6);
         tablaProductos.getColumnModel().getColumn(0).setHeaderValue("Cantidad");
         tablaProductos.getColumnModel().getColumn(1).setHeaderValue("Codigo");
         tablaProductos.getColumnModel().getColumn(2).setHeaderValue("Descripcion");
@@ -231,8 +329,8 @@ public class InterfazPuntoVenta extends JFrame implements View {
 
         //Recuadro con opcion de scrolling para la tabla
         panelConScroll = new JScrollPane(tablaProductos);
-        panelConScroll.setLocation(13,105);
-        panelConScroll.setSize(LARGO_VENTANA-35,ALTO_VENTANA-150);
+        panelConScroll.setLocation(13,138);
+        panelConScroll.setSize(LARGO_VENTANA-35,ALTO_VENTANA-250);
         panelConScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); 
         add(panelConScroll);
 
