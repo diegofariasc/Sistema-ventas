@@ -1,6 +1,9 @@
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -39,13 +42,36 @@ public class BaseDatosProductos implements Model {
             //Cerrar los flujos de entrada
             objectInputStream.close();
             fileInputStream  .close();
-            
-        } catch (ClassNotFoundException | IOException e) {}
+        
+        } // End try
+
+        catch (FileNotFoundException excepcion) {
+
+            /* Si no se pudo cargar la estructura porque el archivo 
+            no se encontro (posiblemente no se ha creado), guardarlo*/
+            salvaDatosDeLaEstructuraAlRepositorio();
+        } //End catch
+
+        catch (ClassNotFoundException | IOException excepcion) {}
         
     } //End cargaDatosDelRepositorioALaEstructura
 
     @Override
     public void salvaDatosDeLaEstructuraAlRepositorio() {
+
+        try {
+            // Serializar archivo de datos 
+            FileOutputStream fileOutputStream = new FileOutputStream("baseDatosProductos.sysventas");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            
+            //Guardar arraylist
+            objectOutputStream.writeObject(productos);
+
+            //Cerrar los flujos de entrada
+            objectOutputStream.close();
+            fileOutputStream  .close();
+            
+        } catch (IOException e) {}
 
     } //End salvaDatosDeLaEstructuraAlRepositorio
 

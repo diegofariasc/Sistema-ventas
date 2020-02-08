@@ -14,9 +14,9 @@ public class Producto implements Serializable, Comparable<Producto> {
     private String  descripcion;
     private String  departamento;
     private int     unidadVenta;
-    private float   precioCompra;
-    private float   precioVenta;
-    private float   cantidadDisponible;
+    private double  precioCompra;
+    private double  precioVenta;
+    private double  cantidadDisponible;
 
     // Constantes para estandarizar las unidades de venta 
     public static final int PIEZA   = 0;
@@ -32,10 +32,26 @@ public class Producto implements Serializable, Comparable<Producto> {
     public String getDescripcion()          { return descripcion; }
     public String getDepartamento()         { return departamento; }
     public int    getUnidadVenta()          { return unidadVenta; }
-    public float  getPrecioCompra()         { return precioCompra; }
-    public float  getPrecioVenta()          { return precioVenta; }
-    public float  getCantidadDisponible()   { return cantidadDisponible; }
+    public double  getPrecioCompra()        { return precioCompra; }
+    public double  getPrecioVenta()         { return precioVenta; }
+    public double  getCantidadDisponible()  { return cantidadDisponible; }
 
+
+    /************************************************
+     * Constructores
+    *************************************************/  
+    public Producto(){}
+    public Producto(int codigo, String descripcion, String departamento,
+                    int unidadVenta, double precioCompra, double precioVenta,  
+                    double cantidadDisponible){
+        this.codigo             = codigo;
+        this.descripcion        = descripcion;
+        this.departamento       = departamento;
+        this.unidadVenta        = unidadVenta;
+        this.precioCompra       = precioCompra;
+        this.precioVenta        = precioVenta;
+        this.cantidadDisponible = cantidadDisponible;
+    } //End constructor
 
     /************************************************
      * Coleccion de setters
@@ -56,15 +72,15 @@ public class Producto implements Serializable, Comparable<Producto> {
         unidadVenta = nuevaUnidadVenta;
     } // End setUnidadVenta
 
-    public void setPrecioCompra(float nuevoPrecioCompra) {
+    public void setPrecioCompra(double nuevoPrecioCompra) {
         precioCompra = nuevoPrecioCompra;
     } // End setPrecioCompra
 
-    public void setPrecioVenta(float nuevoPrecioVenta) {
+    public void setPrecioVenta(double nuevoPrecioVenta) {
         precioVenta = nuevoPrecioVenta;
     } // End setPrecioVenta
 
-    public void setCantidadDisponible(float nuevaCantidadDisponible) {
+    public void setCantidadDisponible(double nuevaCantidadDisponible) {
         cantidadDisponible = nuevaCantidadDisponible;
     } // End setCantidadDisponible
 
