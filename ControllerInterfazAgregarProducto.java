@@ -4,6 +4,22 @@ import java.awt.event.FocusListener;
 
 public class ControllerInterfazAgregarProducto implements Controller, FocusListener {
 
+    private BaseDatosProductos      modelProductos;
+    private InterfazAgregarProducto viewProductos;
+
+    /************************************************
+    * Constructor de la clase
+    *************************************************/    
+    public ControllerInterfazAgregarProducto(BaseDatosProductos model, InterfazAgregarProducto view)
+    {
+        modelProductos  = model;
+        viewProductos   = view;
+    }//End constructor
+
+
+    /************************************************
+    * Implementacion de la interfaz controller
+    *************************************************/        
     @Override
     public Object obtieneDatoDelModel(int indice) {
         return null;
@@ -30,7 +46,9 @@ public class ControllerInterfazAgregarProducto implements Controller, FocusListe
     } //End actionPerformed
 
 
-    
+    /************************************************
+    * Implementacion de la interfaz FocusListener
+    *************************************************/    
     @Override
     public void focusGained(FocusEvent e) {
 
