@@ -105,4 +105,16 @@ public class BaseDatosProductos implements Model {
         return !productos.isEmpty();
     } //End hayDatos
 
+
+    /************************************************
+    * Coleccion de getters
+    *************************************************/ 
+    public Producto getProducto(int indice) { 
+        return productos.get(indice); 
+    } //End getProducto
+    
+    public int getCantidadProductos(){ 
+        return productos.size();
+    } // End getCantidadProductos
+
 } //End class
