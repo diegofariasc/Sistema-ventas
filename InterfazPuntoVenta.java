@@ -29,7 +29,6 @@ public class InterfazPuntoVenta extends JFrame implements View {
     JLabel              labelDescripcionQuitarProducto;
     JLabel              labelDescripcionConsultarListaPrecios;
     JLabel              labelDescripcionCampoCodigo;
-    JLabel              labelDescripcionBuscar;
     JLabel              labelDescripcionCampoCantidad;
     JLabel              labelTotalCompra;
     JLabel              labelCantidadArticulos;
@@ -37,11 +36,9 @@ public class InterfazPuntoVenta extends JFrame implements View {
     JLabel              labelMontoRecibido;
     JButton             botonAgregar;
     JButton             botonFinalizar;
-    JButton             botonBuscar;
     JButton             botonAbortarVenta;
     JButton             botonQuitarProducto;
     JButton             botonConsultarListaPrecios;
-    JTextField          campoBuscar;
     JTextField          campoAgregar;
     JTextField          campoRecibido;
     JTextField          campoCantidadAgregar;
@@ -99,12 +96,6 @@ public class InterfazPuntoVenta extends JFrame implements View {
         imagenVentana.setSize(40,40);
         panelTitulo.add(imagenVentana);
 
-        //Campo para buscar un articulo por nombre
-        campoBuscar = new JTextField();
-        campoBuscar.setLocation(LARGO_VENTANA-245,110);
-        campoBuscar.setSize(200,22);
-        add(campoBuscar);
-
         //Campo para especificar el codigo de barras del producto a agregar
         campoAgregar = new JTextField();
         campoAgregar.setLocation(13,110);
@@ -149,17 +140,6 @@ public class InterfazPuntoVenta extends JFrame implements View {
         botonFinalizar.setForeground(Color.WHITE);
         botonFinalizar.setToolTipText("Terminar exitosamente con la venta actual");
         add(botonFinalizar);
-
-        //Boton para buscar productos por nombre
-        botonBuscar = new JButton(new ImageIcon("Iconos/Icono_buscar.png"));
-        botonBuscar.setLocation(LARGO_VENTANA-44,110);
-        botonBuscar.setSize(21,21);
-        botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        botonBuscar.setBorderPainted(false);
-        botonBuscar.setFocusPainted(false);
-        botonBuscar.setBackground(colorEstilo);
-        botonBuscar.setToolTipText("Buscar productos que contengan el nombre dado");
-        add(botonBuscar);
         
         //Boton para cambiar a la ventana de consultar lista de precios
         botonConsultarListaPrecios = new JButton(new ImageIcon("Iconos/Icono_consultarPrecios.png"));
@@ -207,14 +187,6 @@ public class InterfazPuntoVenta extends JFrame implements View {
         labelTitulo.setForeground(Color.WHITE);
         labelTitulo.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         panelTitulo.add(labelTitulo);
-
-        //Etiqueta para describir el funcionamiento de la busqueda
-        labelDescripcionBuscar = new JLabel("Busqueda por nombre");
-        labelDescripcionBuscar.setLocation(LARGO_VENTANA-245,92);
-        labelDescripcionBuscar.setSize(150,20);
-        labelDescripcionBuscar.setForeground(Color.DARK_GRAY);
-        labelDescripcionBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 10));
-        add(labelDescripcionBuscar);
 
         //Etiqueta para indicar el proceso para agregar un articulo a la venta
         labelDescripcionCampoCodigo = new JLabel("Ingresar codigo de articulo");
@@ -351,7 +323,6 @@ public class InterfazPuntoVenta extends JFrame implements View {
     public void setActionListener(Controller theController) {
         botonAgregar.addActionListener(theController);
         botonFinalizar.addActionListener(theController);
-        botonBuscar.addActionListener(theController);
         botonAbortarVenta.addActionListener(theController);
         botonQuitarProducto.addActionListener(theController);
         botonConsultarListaPrecios.addActionListener(theController);
