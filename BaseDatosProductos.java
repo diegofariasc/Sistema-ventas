@@ -1,8 +1,47 @@
-public class BaseDatosProductos implements Model{
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 
+/**
+ * La clase representa la coleccion de productos almacenados
+ * por el sistema
+ */
+
+public class BaseDatosProductos implements Model {
+
+    private ArrayList<Producto> productos;
+
+    /************************************************
+    * Constructor de la clase
+    *************************************************/
+    public BaseDatosProductos(){
+        productos = new ArrayList<Producto>();
+    } //End constructor
+
+
+    /************************************************
+    * Implementacion de la interfaz Model
+    *************************************************/
     @Override
+    @SuppressWarnings("unchecked")
     public void cargaDatosDelRepositorioALaEstructura() {
 
+        try {
+            // Deserializar archivo de datos 
+            FileInputStream fileInputStream = new FileInputStream("baseDatosProductos.sysventas");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            
+            //Leer base de datos de productos y guardarlo en el arraylist
+            productos = (ArrayList<Producto>) objectInputStream.readObject();
+
+            //Cerrar los flujos de entrada
+            objectInputStream.close();
+            fileInputStream  .close();
+            
+        } catch (ClassNotFoundException | IOException e) {}
+        
     } //End cargaDatosDelRepositorioALaEstructura
 
     @Override
@@ -12,34 +51,32 @@ public class BaseDatosProductos implements Model{
 
     @Override
     public void agregaDatosALaEstructura(int indice, Object dato) {
-
+        productos.add(indice,(Producto)dato);
     } //End agregaDatosALaEstructura
 
     @Override
     public void modificaDatosEnLaEstructura(int indice, Object dato) {
-
+        productos.set(indice,(Producto)dato);
     } //End modificaDatosEnLaEstructura
 
     @Override
     public void eliminaDatosDeLaEstructura(int indice) {
-
+        productos.remove(indice);
     } //End eliminaDatosDeLaEstructura
 
     @Override
     public void ordenaLaEstructura() {
-
+        Collections.sort(productos);
     } //End ordenaLaEstructura
 
     @Override
     public double procesa(int indice) {
-        
         return 0;
     } //End procesa
 
     @Override
     public boolean hayDatos() {
-
-        return false;
+        return !productos.isEmpty();
     } //End hayDatos
 
 } //End class

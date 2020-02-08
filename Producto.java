@@ -4,7 +4,6 @@ import java.io.Serializable;
  * La clase representa un producto que ofrece el establecimiento 
  * propietario del sistema
  * 
- * Proyecto 1. Patrones de diseño de Software
  * @author Diego Farias Castro
  */
 
