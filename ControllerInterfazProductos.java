@@ -103,10 +103,16 @@ public class ControllerInterfazProductos implements Controller {
             //Revisar si hay datos en el model y si hay una fila seleccionada en la tabla
             if (modelProductos.hayDatos() && obtieneDatoDelView() != null){
 
-                //Proceder a la eliminacion
-                solicitaActualizacionDelModel("Eliminar");
-                actualizaElView();
+                Dialogo dialogo = new Dialogo(  "Eliminacion de un articulo",
+                                                "¿Confirma que desea eliminar el articulo seleccionado?",
+                                                Dialogo.MENSAJE_ADVERTENCIA);
+                dialogo.iniciarInterfaz();
 
+                if (dialogo.seAceptaLaAccion()){
+                    //Proceder a la eliminacion
+                    solicitaActualizacionDelModel("Eliminar");
+                    actualizaElView();
+                } //End if 
             } //End if
         }//End if
 
