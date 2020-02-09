@@ -3,7 +3,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.FocusEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -123,7 +122,7 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
             Esto evita que si se cambia el valor del JComboBox unidadVenta despues de ingresar
             la disponibilidad se considere valido*/
             validarCampoDisponibilidad();
-
+            actualizaElView();
         } //End if
 
         //De lo contrario, el evento que lo acciono fue uno de los botones
