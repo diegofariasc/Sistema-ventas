@@ -3,35 +3,50 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 
 @SuppressWarnings("serial")
-public class Dialogo extends JDialog implements View {
+public class Dialogo extends JDialog implements ActionListener {
     
     private static final int LARGO_VENTANA = 400;
-    private static final int ALTO_VENTANA  = 410;
+    private static final int ALTO_VENTANA  = 180;
 
-    JPanel              panelTitulo;
-    JLabel              labelNombreAplicacion;
-    JLabel              labelTitulo;
-    JLabel              labelInstrucciones;
-    JLabel              imagenVentana;
-    JButton             botonAceptar;
-    JButton             botonCancelar;
-    Color               colorEstilo;
+    JPanel  panelTitulo;
+    JLabel  labelNombreAplicacion;
+    JLabel  labelTitulo;
+    JLabel  labelInstrucciones;
+    JLabel  imagenVentana;
+    JButton botonAceptar;
+    JButton botonCancelar;
+    Color   colorEstilo;
+    String  titulo;
+    String  mensaje;
+    int     tipoMensaje;
+    boolean seAceptaLaAccion;
+
+    public static int MENSAJE_ADVERTENCIA = 0;
+    public static int MENSAJE_INFORMATIVO = 1;
+
 
     /************************************************
      * Constructor de la clase
      *************************************************/
-    public Dialogo(String mensaje){
+    public Dialogo(String titulo,String mensaje, int tipoMensaje){
         
         //Parámetros de la ventana
-        colorEstilo = new Color(13,62,145);
-        setTitle("Dialogo de confirmacion");
+        this.titulo = titulo;
+        this.mensaje = mensaje;
+        this.tipoMensaje = tipoMensaje;
+        
+        
+        colorEstilo = tipoMensaje == MENSAJE_ADVERTENCIA ? new Color(207,86,0) : new Color(10,128,16);
+        setTitle("Sistema de ventas [Dialogo]");
         setSize(LARGO_VENTANA,ALTO_VENTANA);
-        setLocation(400,160);
+        setLocation(450,260);
         setLayout(null);
         setResizable(false);
         setModal(true);
@@ -49,7 +64,6 @@ public class Dialogo extends JDialog implements View {
     /**
      * El metodo construye cada componente de la ventana
      */
-    @Override
     public void constuyeComponentes() {
 
         //Panel superior de la ventana
@@ -60,7 +74,9 @@ public class Dialogo extends JDialog implements View {
         add(panelTitulo);
 
         //Imagen en la esquina superior izquierda
-        imagenVentana = new JLabel(new ImageIcon("Iconos/Icono_ventanaNuevoProducto.png"));
+        imagenVentana = new JLabel();
+        imagenVentana.setIcon(tipoMensaje == MENSAJE_ADVERTENCIA ?  new ImageIcon("Iconos/Icono_advertencia.png") :
+                                                                    new ImageIcon("Iconos/Icono_confirmado.png"));
         imagenVentana.setLocation(5,7);
         imagenVentana.setSize(40,40);
         panelTitulo.add(imagenVentana);
@@ -72,6 +88,7 @@ public class Dialogo extends JDialog implements View {
         botonCancelar.setForeground(Color.WHITE);
         botonCancelar.setBackground(new Color(84,84,84));
         botonCancelar.setFocusPainted(false);
+        botonCancelar.setVisible(tipoMensaje==MENSAJE_ADVERTENCIA);
         botonCancelar.setBorder(null);
         botonCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         botonCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -86,12 +103,12 @@ public class Dialogo extends JDialog implements View {
         botonAceptar.setFocusPainted(false);
         botonAceptar.setBorder(null);
         botonAceptar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        botonAceptar.setEnabled(false);
         botonAceptar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(botonAceptar);
 
         //Etiqueta con el nombre de la aplicacion
-        labelNombreAplicacion = new JLabel("Sistema de ventas");
+        labelNombreAplicacion = new JLabel(tipoMensaje == MENSAJE_ADVERTENCIA ? "Espera de confirmacion" : 
+                                                                                "Informacion");
         labelNombreAplicacion.setLocation(55,5);
         labelNombreAplicacion.setSize(400,20);
         labelNombreAplicacion.setForeground(Color.WHITE);
@@ -99,7 +116,7 @@ public class Dialogo extends JDialog implements View {
         panelTitulo.add(labelNombreAplicacion);
 
         //Etiqueta para describir la tarea de la ventana
-        labelTitulo = new JLabel("Registrar nuevo producto");
+        labelTitulo = new JLabel(titulo);
         labelTitulo.setLocation(55,27);
         labelTitulo.setSize(400,20);
         labelTitulo.setForeground(Color.WHITE);
@@ -107,25 +124,17 @@ public class Dialogo extends JDialog implements View {
         panelTitulo.add(labelTitulo);
 
         //Etiqueta con instrucciones sobre el funcionamiento de la ventana
-        labelInstrucciones = new JLabel("Introduzca la informacion del producto");
+        labelInstrucciones = new JLabel(mensaje);
         labelInstrucciones.setLocation(13,70);
         labelInstrucciones.setSize(700,20);
         labelInstrucciones.setForeground(Color.DARK_GRAY);
         labelInstrucciones.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         add(labelInstrucciones);
 
+        botonAceptar.addActionListener(this);
+        botonCancelar.addActionListener(this);
+
     } //End constuyeComponentes
-
-
-    /**
-     * El metodo designa el control del view al Controller dado
-     * @param theController Controlador de la interfaz
-     */
-    @Override
-    public void setActionListener(Controller theController) {
-        botonAceptar.addActionListener(theController);
-        botonCancelar.addActionListener(theController);
-    } //End setActionListener
 
 
      /************************************************
@@ -145,5 +154,29 @@ public class Dialogo extends JDialog implements View {
         setVisible(false);
     } //End ocultarInterfaz    
     
+    public boolean seAceptaLaAccion(){
+        return seAceptaLaAccion;
+    } //End seAceptaLaAccion
+
+    
+    public void actionPerformed(ActionEvent evento)
+    {
+        JButton botonAccionado;
+
+        botonAccionado = (JButton) evento.getSource();
+
+        if(botonAccionado == botonAceptar)
+        {
+            setVisible(false);
+            seAceptaLaAccion = true;
+        }//End if
+
+        if(botonAccionado == botonCancelar)
+        {
+            setVisible(false);
+            seAceptaLaAccion = false;
+        }//End if
+
+    }//end actionPerformed
 
 } //End class

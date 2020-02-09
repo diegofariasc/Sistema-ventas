@@ -40,7 +40,7 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
         
         //Actualizar totales de compra y de articulos en el view 
         viewPuntoVenta.labelTotalCompra.setText(String.format("Total de compra: $%.2f", totalCompra));
-        viewPuntoVenta.labelCantidadArticulos.setText(String.format("Cantidad de articulos: $%.2f", totalProductos));
+        viewPuntoVenta.labelCantidadArticulos.setText(String.format("Cantidad de articulos: %.2f", totalProductos));
         viewPuntoVenta.campoAgregar.setText("");
         viewPuntoVenta.campoCantidadAgregar.setText("1");
         viewPuntoVenta.campoAgregar.requestFocus();

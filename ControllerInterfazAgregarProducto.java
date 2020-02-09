@@ -139,6 +139,10 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
 
                 //Agregar al model y cerrar la ventana
                 solicitaActualizacionDelModel("Agregar");
+                Dialogo dialogo = new Dialogo("Registro de un nuevo articulo",
+                                              "Se ha agregado exitosamente el articulo",
+                                              Dialogo.MENSAJE_INFORMATIVO);
+                dialogo.iniciarInterfaz();
                 viewAgregarProducto.ocultarInterfaz();
             } //End else 
 
