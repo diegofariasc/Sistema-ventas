@@ -18,5 +18,8 @@ public class Main{
 
         viewProductos.iniciarInterfaz();
         
+        InterfazPuntoVenta viewVenta = new InterfazPuntoVenta();
+        viewVenta.iniciarInterfaz();
+
     } //End main
 } //End class
