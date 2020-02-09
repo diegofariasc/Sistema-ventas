@@ -13,7 +13,6 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
 
     private double totalCompra;
     private double totalProductos;
-    private double totalRecibido;
 
     /************************************************
     * Constructor de la clase
