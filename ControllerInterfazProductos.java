@@ -48,7 +48,7 @@ public class ControllerInterfazProductos implements Controller {
                 producto.getCodigo(),
                 producto.getDescripcion(),
                 producto.getDepartamento(),
-                convertirUnidadVentaAString(producto.getUnidadVenta()),
+                producto.getUnidadVentaString(),
                 String.format("$%.2f",producto.getPrecioCompra()),
                 String.format("$%.2f",producto.getPrecioVenta()),
                 String.format("%.3f",producto.getCantidadDisponible()),
@@ -111,16 +111,5 @@ public class ControllerInterfazProductos implements Controller {
         }//End if
 
     } //End actionPerformed
-
-    private String convertirUnidadVentaAString(int unidadVentaInt){
-        switch (unidadVentaInt){
-            case 0:  return "Pieza";
-            case 1:  return "Kilo";
-            case 2:  return "Paquete";
-            case 3:  return "Caja";
-            case 4:  return "Litro";
-            default: return "Desconocido";
-        } //End switch
-    } // End convertirUnidadVentaAString
 
 } //End class

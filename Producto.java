@@ -28,13 +28,23 @@ public class Producto implements Serializable, Comparable<Producto> {
     /************************************************
      * Coleccion de getters
     *************************************************/  
-    public int    getCodigo()               { return codigo; }
-    public String getDescripcion()          { return descripcion; }
-    public String getDepartamento()         { return departamento; }
-    public int    getUnidadVenta()          { return unidadVenta; }
+    public int     getCodigo()              { return codigo; }
+    public String  getDescripcion()         { return descripcion; }
+    public String  getDepartamento()        { return departamento; }
+    public int     getUnidadVenta()         { return unidadVenta; }
     public double  getPrecioCompra()        { return precioCompra; }
     public double  getPrecioVenta()         { return precioVenta; }
     public double  getCantidadDisponible()  { return cantidadDisponible; }
+    public String  getUnidadVentaString()   {
+        switch (unidadVenta){
+            case 0:  return "Pieza";
+            case 1:  return "Kilo";
+            case 2:  return "Paquete";
+            case 3:  return "Caja";
+            case 4:  return "Litro";
+            default: return "Desconocido";
+        } //End switch
+    } // End getUnidadVentaString
 
 
     /************************************************

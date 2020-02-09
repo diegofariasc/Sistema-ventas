@@ -19,7 +19,10 @@ public class Main{
         viewProductos.iniciarInterfaz();
         
         InterfazPuntoVenta viewVenta = new InterfazPuntoVenta();
+        ControllerInterfazPuntoVenta controllerVenta = new ControllerInterfazPuntoVenta(modelProductos, viewVenta);
+        viewVenta.setActionListener(controllerVenta);
         viewVenta.iniciarInterfaz();
+
 
     } //End main
 } //End class

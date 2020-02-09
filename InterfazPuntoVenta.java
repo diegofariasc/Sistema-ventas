@@ -34,6 +34,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
     JLabel              labelCantidadArticulos;
     JLabel              labelSignoMultiplicacion;
     JLabel              labelMontoRecibido;
+    JLabel              labelError;
     JButton             botonAgregar;
     JButton             botonFinalizar;
     JButton             botonAbortarVenta;
@@ -221,7 +222,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         add(labelMontoRecibido);
 
         //Etiqueta para indicar la cantidad de articulos en la venta actual
-        labelCantidadArticulos = new JLabel("Cantidad de artículos: 0");
+        labelCantidadArticulos = new JLabel("Cantidad de artículos: 0.00");
         labelCantidadArticulos.setLocation(13,475);
         labelCantidadArticulos.setSize(400,40);
         labelCantidadArticulos.setForeground(Color.DARK_GRAY);
@@ -235,6 +236,18 @@ public class InterfazPuntoVenta extends JFrame implements View {
         labelSignoMultiplicacion.setForeground(new Color(163,10,5));
         labelSignoMultiplicacion.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 20));
         add(labelSignoMultiplicacion);
+
+        //Etiqueta informar un error al agregar el producto
+        labelError = new JLabel(new ImageIcon("Iconos/Icono_incorrecto.png"));
+        labelError.setLocation(14,ALTO_VENTANA-134);
+        labelError.setSize(300,20);
+        labelError.setOpaque(true);
+        labelError.setVisible(false);
+        labelError.setBackground(new Color(255,166,166));
+        labelError.setForeground(new Color(163,10,5));
+        labelError.setHorizontalAlignment(JLabel.LEFT);
+        labelError.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+        add(labelError);
 
         //Etiqueta para indicar el funcionamiento del boton quitar producto
         labelDescripcionQuitarProducto = new JLabel("Quitar");
