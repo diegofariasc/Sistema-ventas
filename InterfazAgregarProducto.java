@@ -299,8 +299,17 @@ public class InterfazAgregarProducto extends JDialog implements View {
     public void setActionListener(Controller theController) {
         botonAceptar.addActionListener(theController);
         botonCancelar.addActionListener(theController);
+        
     } //End setActionListener
 
+    public void setFocusListener(ControllerInterfazAgregarProducto theController) {
+        campoCodigo.addFocusListener(theController);
+        campoDescripcion.addFocusListener(theController);
+        campoDepartamento.addFocusListener(theController);
+        campoPrecioCompra.addFocusListener(theController);
+        campoPrecioVenta.addFocusListener(theController);
+        campoDisponibilidad.addFocusListener(theController);
+    } //End setFocusListener
 
      /************************************************
      * Metodos de la clase

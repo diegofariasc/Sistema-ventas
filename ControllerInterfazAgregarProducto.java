@@ -1,19 +1,20 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import javax.swing.JButton;
 
 public class ControllerInterfazAgregarProducto implements Controller, FocusListener {
 
     private BaseDatosProductos      modelProductos;
-    private InterfazAgregarProducto viewProductos;
+    private InterfazAgregarProducto viewAgregarProducto;
 
     /************************************************
     * Constructor de la clase
     *************************************************/    
     public ControllerInterfazAgregarProducto(BaseDatosProductos model, InterfazAgregarProducto view)
     {
-        modelProductos  = model;
-        viewProductos   = view;
+        modelProductos      = model;
+        viewAgregarProducto = view;
     }//End constructor
 
 
@@ -22,12 +23,28 @@ public class ControllerInterfazAgregarProducto implements Controller, FocusListe
     *************************************************/        
     @Override
     public Object obtieneDatoDelModel(int indice) {
-        return null;
+        return modelProductos.get(indice);
     } //End obtieneDatoDelModel
 
     @Override
-    public Object obtieneDatoDelView() {
-        return null;
+    public Producto obtieneDatoDelView() {
+        
+        //Crear un nuevo producto
+        Producto producto = new Producto(
+
+            //Recibiendo como argumentos el contenido del view 
+            Integer.parseInt(viewAgregarProducto.campoCodigo.getText()),
+            viewAgregarProducto.campoDescripcion.getText(),
+            viewAgregarProducto.campoDepartamento.getText(),
+            viewAgregarProducto.campoUnidadVenta.getSelectedIndex(),
+            Double.parseDouble(viewAgregarProducto.campoPrecioCompra.getText()),
+            Double.parseDouble(viewAgregarProducto.campoPrecioVenta.getText()),
+            Double.parseDouble(viewAgregarProducto.campoDisponibilidad.getText())
+
+        ); //End producto 
+
+        return producto;
+    
     } //End obtieneDatoDelView
 
     @Override
@@ -43,6 +60,13 @@ public class ControllerInterfazAgregarProducto implements Controller, FocusListe
     @Override
     public void actionPerformed(ActionEvent evento) {
 
+        JButton boton = (JButton) evento.getSource();
+
+        if (boton == viewAgregarProducto.botonCancelar){
+            
+            viewAgregarProducto.ocultarInterfaz();
+        } //End if        
+        
     } //End actionPerformed
 
 
@@ -51,7 +75,7 @@ public class ControllerInterfazAgregarProducto implements Controller, FocusListe
     *************************************************/    
     @Override
     public void focusGained(FocusEvent e) {
-
+        System.out.println("Focus");
     } //End focusGained
 
     @Override

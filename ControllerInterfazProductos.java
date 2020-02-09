@@ -27,8 +27,13 @@ public class ControllerInterfazProductos implements Controller {
 
     @Override
     public Integer obtieneDatoDelView() {
+
         int columnaSeleccionada = viewProductos.tablaProductos.getSelectedRow();
+
+        //Ver si no hay ninguna columna seleccionada (el indice es -1), entonces
+        //devolver null. De lo contrario regresar el indice 
         return  columnaSeleccionada < 0 ? null : columnaSeleccionada ;
+
     } // End obtieneDatoDelView
 
     @Override
@@ -70,6 +75,10 @@ public class ControllerInterfazProductos implements Controller {
 
         if (boton == viewProductos.botonNuevoProducto){
             InterfazAgregarProducto dialogoAgregarProducto = new InterfazAgregarProducto();
+            ControllerInterfazAgregarProducto controllerAgregarProducto = new ControllerInterfazAgregarProducto(
+                modelProductos, dialogoAgregarProducto);
+            dialogoAgregarProducto.setActionListener(controllerAgregarProducto);
+            dialogoAgregarProducto.setFocusListener(controllerAgregarProducto);
             dialogoAgregarProducto.iniciarInterfaz();
         } //End if
 
