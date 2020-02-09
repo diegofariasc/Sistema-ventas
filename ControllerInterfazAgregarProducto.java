@@ -1,7 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

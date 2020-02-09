@@ -1,7 +1,12 @@
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 
-public class ControllerInterfazPuntoVenta implements Controller {
+public class ControllerInterfazPuntoVenta implements Controller, KeyListener, FocusListener {
 
     private BaseDatosProductos modelProductos;
     private InterfazPuntoVenta viewPuntoVenta;
@@ -37,17 +42,28 @@ public class ControllerInterfazPuntoVenta implements Controller {
         //Actualizar totales de compra y de articulos en el view 
         viewPuntoVenta.labelTotalCompra.setText(String.format("Total de compra: $%.2f", totalCompra));
         viewPuntoVenta.labelCantidadArticulos.setText(String.format("Cantidad de articulos: $%.2f", totalProductos));
+        viewPuntoVenta.campoAgregar.setText("");
+        viewPuntoVenta.campoCantidadAgregar.setText("1");
+        viewPuntoVenta.campoAgregar.requestFocus();
 
 	} //End actualizaElView
 
 	@Override
 	public void solicitaActualizacionDelModel(String accion) {
-		if (accion.equals("Decrementar Disponibilidad")){
 
+        String[] acciones = accion.split(" ");
+        Producto producto = modelProductos.get(Integer.parseInt(acciones[1]));
+
+		if (accion.startsWith("DecrementarDisponibilidad")){
+            producto.setCantidadDisponible(producto.getCantidadDisponible()-Double.parseDouble(acciones[2]));
         } //End if
-        else if (accion.equals("Incrementar Disponibilidad")){
-
+        
+        else if (accion.equals("IncrementarDisponibilidad")){
+            producto.setCantidadDisponible(producto.getCantidadDisponible()+Double.parseDouble(acciones[2]));
         } //End elseif
+
+        modelProductos.salvaDatosDeLaEstructuraAlRepositorio();
+
 	} //End solicitaActualizacionDelModel
 
 	@Override
@@ -76,16 +92,24 @@ public class ControllerInterfazPuntoVenta implements Controller {
                 if (producto.getCodigo()== Integer.parseInt(informacionProductoAgregar[0])){
 
                     double cantidad;
+                    
                     /*Ver si la unidad de venta es fraccionable y si es asi sumar 
                     la cantidad con decimales al total de productos*/
+                    
                     if (producto.getUnidadVenta()== Producto.KILO || 
                         producto.getUnidadVenta()== Producto.LITRO )
                         cantidad = Double.parseDouble(informacionProductoAgregar[1]);
-
+                    
                     //Si no, sumar un entero
                     else
                         cantidad = Integer.parseInt(informacionProductoAgregar[1]);
-
+                    
+                    //Verificar si hay suficiente stock para realizar la operacion
+                    if (cantidad>producto.getCantidadDisponible())
+                        throw new UnsupportedOperationException();
+    
+                    solicitaActualizacionDelModel("DecrementarDisponibilidad " + i + " " + cantidad);
+                    
                     double subtotalProducto = producto.getPrecioVenta()*cantidad;
 
                     //Actualizar el contenido de la tabla
@@ -120,12 +144,75 @@ public class ControllerInterfazPuntoVenta implements Controller {
             } //End if 
 
         } //End try
-        catch (NumberFormatException | NullPointerException excepcion){
+
+        catch (UnsupportedOperationException excepcion){
+            
+            viewPuntoVenta.labelError.setText("No hay suficiente stock para agregar a la venta");
+            viewPuntoVenta.labelError.setVisible(true);
+
+        } //End catch
+
+        catch (NumberFormatException excepcion){
             
             viewPuntoVenta.labelError.setText("La informacion proporcionada es invalida");
             viewPuntoVenta.labelError.setVisible(true);
 
         } //End catch
     } //End agregarProductoVenta
+
+    @Override
+    public void focusGained(FocusEvent e) {
+
+    }
+
+    @Override
+    public void focusLost(FocusEvent evento) {
+
+        JTextField campoDesenfocado = (JTextField) evento.getSource();
+        
+        if (campoDesenfocado == viewPuntoVenta.campoRecibido){
+
+            validarActivacionBotonFinalizar();
+            double recibido = Double.parseDouble(viewPuntoVenta.campoRecibido.getText());
+            viewPuntoVenta.campoRecibido.setText(String.format("%.2f",recibido));
+
+        } //End if
+
+    } //End focusLost
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent evento) {} //End keyPress
+
+    @Override
+    public void keyReleased(KeyEvent evento) {
+
+        JTextField campoAccionado = (JTextField) evento.getSource();
+        
+        if (campoAccionado == viewPuntoVenta.campoRecibido)
+            validarActivacionBotonFinalizar();
+
+        if (campoAccionado == viewPuntoVenta.campoAgregar || campoAccionado == viewPuntoVenta.campoCantidadAgregar )
+            if (evento.getKeyCode() == KeyEvent.VK_ENTER){
+                agregarProductoVenta(obtieneDatoDelView());
+                actualizaElView();
+            } //End if
+
+    } //End keyReleased
+
+    private void validarActivacionBotonFinalizar(){
+        try{
+
+            double recibido = Double.parseDouble(viewPuntoVenta.campoRecibido.getText());
+            if (recibido>=totalCompra && totalProductos > 0)
+                viewPuntoVenta.botonFinalizar.setEnabled(true);
+            else
+                viewPuntoVenta.botonFinalizar.setEnabled(false);
+
+        } //End try
+        catch (NumberFormatException excepcion){} //End catch
+    } //End try
 
 } //End class

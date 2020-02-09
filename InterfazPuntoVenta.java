@@ -63,7 +63,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         colorEstilo = new Color(13,62,145);
         setTitle("Sistema de ventas [Punto de venta]");
         setSize(LARGO_VENTANA,ALTO_VENTANA);
-        setLocation(200,80);
+        setLocation(300,100);
         setBackground(colorEstilo);
         setLayout(null);
         setResizable(false);
@@ -139,6 +139,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         botonFinalizar.setBackground(colorEstilo);
         botonFinalizar.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         botonFinalizar.setForeground(Color.WHITE);
+        botonFinalizar.setEnabled(false);
         botonFinalizar.setToolTipText("Terminar exitosamente con la venta actual");
         add(botonFinalizar);
         
@@ -342,6 +343,15 @@ public class InterfazPuntoVenta extends JFrame implements View {
         
     } //End setActionListener
 
+    public void setFocusListener(ControllerInterfazPuntoVenta theController) {
+        campoRecibido.addFocusListener(theController);
+    } //End setFocusListener
+
+    public void setKeyListener(ControllerInterfazPuntoVenta theController) {
+        campoRecibido.addKeyListener(theController);
+        campoAgregar.addKeyListener(theController);
+        campoCantidadAgregar.addKeyListener(theController);
+    } //End setFocusListener
 
      /************************************************
      * Metodos de la clase

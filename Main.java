@@ -21,6 +21,8 @@ public class Main{
         InterfazPuntoVenta viewVenta = new InterfazPuntoVenta();
         ControllerInterfazPuntoVenta controllerVenta = new ControllerInterfazPuntoVenta(modelProductos, viewVenta);
         viewVenta.setActionListener(controllerVenta);
+        viewVenta.setFocusListener(controllerVenta);
+        viewVenta.setKeyListener(controllerVenta);
         viewVenta.iniciarInterfaz();
 
 
