@@ -299,7 +299,7 @@ public class InterfazAgregarProducto extends JDialog implements View {
     public void setActionListener(Controller theController) {
         botonAceptar.addActionListener(theController);
         botonCancelar.addActionListener(theController);
-        
+        campoUnidadVenta.addActionListener(theController);
     } //End setActionListener
 
     public void setFocusListener(ControllerInterfazAgregarProducto theController) {
@@ -309,6 +309,15 @@ public class InterfazAgregarProducto extends JDialog implements View {
         campoPrecioCompra.addFocusListener(theController);
         campoPrecioVenta.addFocusListener(theController);
         campoDisponibilidad.addFocusListener(theController);
+    } //End setFocusListener
+
+    public void setKeyListener(ControllerInterfazAgregarProducto theController) {
+        campoCodigo.addKeyListener(theController);
+        campoDescripcion.addKeyListener(theController);
+        campoDepartamento.addKeyListener(theController);
+        campoPrecioCompra.addKeyListener(theController);
+        campoPrecioVenta.addKeyListener(theController);
+        campoDisponibilidad.addKeyListener(theController);
     } //End setFocusListener
 
      /************************************************

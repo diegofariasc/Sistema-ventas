@@ -74,12 +74,27 @@ public class ControllerInterfazProductos implements Controller {
         JButton boton = (JButton) evento.getSource();
 
         if (boton == viewProductos.botonNuevoProducto){
+
+            //Crear el dialogo y su controller
             InterfazAgregarProducto dialogoAgregarProducto = new InterfazAgregarProducto();
             ControllerInterfazAgregarProducto controllerAgregarProducto = new ControllerInterfazAgregarProducto(
                 modelProductos, dialogoAgregarProducto);
+
+            //Asociar dialogo y controller
             dialogoAgregarProducto.setActionListener(controllerAgregarProducto);
             dialogoAgregarProducto.setFocusListener(controllerAgregarProducto);
+            dialogoAgregarProducto.setKeyListener(controllerAgregarProducto);
+
+            //Guardar la cantidad de informacion en el model
+            int datosEnModel = modelProductos.size();
+
+            //Lanzar la interfaz de agregar producto
             dialogoAgregarProducto.iniciarInterfaz();
+
+            //Ver si se registraron cambios en el model y de ser asi, actualizar el view
+            if (modelProductos.size() > datosEnModel)
+                actualizaElView();
+
         } //End if
 
         //Si el boton eliminar fue el accionado
