@@ -98,7 +98,7 @@ public class ControllerInterfazProductos implements Controller {
         } //End if
 
         //Si el boton eliminar fue el accionado
-        if(boton == viewProductos.botonEliminarProducto)
+        else if(boton == viewProductos.botonEliminarProducto)
         {
             //Revisar si hay datos en el model y si hay una fila seleccionada en la tabla
             if (modelProductos.hayDatos() && obtieneDatoDelView() != null){
@@ -115,6 +115,9 @@ public class ControllerInterfazProductos implements Controller {
                 } //End if 
             } //End if
         }//End if
+        else if(boton == viewProductos.botonRegresar){
+            viewProductos.ocultarInterfaz();
+        } //End elseif 
 
     } //End actionPerformed
 

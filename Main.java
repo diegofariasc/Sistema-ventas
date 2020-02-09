@@ -1,30 +1,24 @@
 public class Main{
     public static void main (String[] args){
 
-        InterfazProductos           viewProductos;
-        BaseDatosProductos          modelProductos;
-        ControllerInterfazProductos controllerProductos;
+        // Declarar model view y controller para el punto de venta 
+        BaseDatosProductos              modelProductos;
+        InterfazPuntoVenta              viewVenta;
+        ControllerInterfazPuntoVenta    controllerVenta;
 
-        // Crear model view y controller para la ventana de productos 
-        modelProductos      = new BaseDatosProductos();
-        viewProductos       = new InterfazProductos();
-        controllerProductos = new ControllerInterfazProductos(modelProductos, viewProductos);
+        // Crear view y controller para la ventana de productos 
+        modelProductos  = new BaseDatosProductos();
+        viewVenta       = new InterfazPuntoVenta();
+        controllerVenta = new ControllerInterfazPuntoVenta(modelProductos, viewVenta);
 
-        // Asociar view con controller de la ventana de productos
-        viewProductos.setActionListener(controllerProductos);
-
-        // Inicializar tabla del view
-        controllerProductos.actualizaElView();
-
-        viewProductos.iniciarInterfaz();
-        
-        InterfazPuntoVenta viewVenta = new InterfazPuntoVenta();
-        ControllerInterfazPuntoVenta controllerVenta = new ControllerInterfazPuntoVenta(modelProductos, viewVenta);
+        //Asociar view y controller
         viewVenta.setActionListener(controllerVenta);
         viewVenta.setFocusListener(controllerVenta);
         viewVenta.setKeyListener(controllerVenta);
+
+        //Lanzar la ventana principal
         viewVenta.iniciarInterfaz();
 
-
     } //End main
+
 } //End class

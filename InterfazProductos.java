@@ -3,7 +3,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 @SuppressWarnings("serial")
-public class InterfazProductos extends JFrame implements View {
+public class InterfazProductos extends JDialog implements View {
 
     private static final int LARGO_VENTANA = 1000;
     private static final int ALTO_VENTANA  = 600;
@@ -64,7 +64,8 @@ public class InterfazProductos extends JFrame implements View {
         setBackground(colorEstilo);
         setLayout(null);
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setModal(true);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         //Construir los componentes de la ventana
         constuyeComponentes();

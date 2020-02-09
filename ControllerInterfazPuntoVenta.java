@@ -43,6 +43,8 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
         viewPuntoVenta.labelCantidadArticulos.setText(String.format("Cantidad de articulos: %.2f", totalProductos));
         viewPuntoVenta.campoAgregar.setText("");
         viewPuntoVenta.campoCantidadAgregar.setText("1");
+        viewPuntoVenta.campoRecibido.setText("0.00");
+        viewPuntoVenta.botonFinalizar.setEnabled(false);
         viewPuntoVenta.campoAgregar.requestFocus();
 
 	} //End actualizaElView
@@ -71,9 +73,71 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
         
         if (boton == viewPuntoVenta.botonAgregar)
             agregarProductoVenta( obtieneDatoDelView() );
-            actualizaElView();
+
+        else if (boton == viewPuntoVenta.botonAbortarVenta){
+            Dialogo dialogo = new Dialogo(  "Abortar una venta", 
+                                            "¿Confirma que desea abortar la venta actual?",
+                                            Dialogo.MENSAJE_ADVERTENCIA);
+            dialogo.iniciarInterfaz();
+
+            //Reiniciar el view si el usuario confirma el abortaje de la venta 
+            if (dialogo.seAceptaLaAccion()){
+                reiniciarView();
+            } //End if
+
+        } //End elseif
+
+        else if (boton == viewPuntoVenta.botonQuitarProducto){
+            Dialogo dialogo = new Dialogo(  "Quitar un producto de la venta", 
+                                            "¿Confirma que desea quitar el producto seleccionado?",
+                                            Dialogo.MENSAJE_ADVERTENCIA);
+            dialogo.iniciarInterfaz();
+        } //End elseif 
+
+        else if (boton == viewPuntoVenta.botonFinalizar){
+            Dialogo dialogo = new Dialogo(  "Venta finalizada", 
+                                            "Se ha concluido exitosamente la venta actual",
+                                            Dialogo.MENSAJE_INFORMATIVO);
+            dialogo.iniciarInterfaz();
+            reiniciarView();
+        } //End elseif 
+
+        else if (boton == viewPuntoVenta.botonConsultarListaPrecios){
+            viewPuntoVenta.ocultarInterfaz();
+            mostrarListaPrecios();
+            viewPuntoVenta.iniciarInterfaz();
+        } //End if 
+
+        actualizaElView();
         
-	} //End actionPerformed
+    } //End actionPerformed
+
+    private void mostrarListaPrecios(){
+
+        //Proceso para llamar a la interfaz de productos 
+        InterfazProductos           viewProductos;
+        ControllerInterfazProductos controllerProductos;
+
+        // Crear view y controller para la ventana de productos 
+        viewProductos       = new InterfazProductos();
+        controllerProductos = new ControllerInterfazProductos(modelProductos, viewProductos);
+
+        // Asociar view con controller de la ventana de productos
+        viewProductos.setActionListener(controllerProductos);
+
+        // Inicializar tabla del view
+        controllerProductos.actualizaElView();
+
+        //Mostrar la lista de precios
+        viewProductos.iniciarInterfaz();
+
+    } //End mostrarListaPrecios
+    
+    private void reiniciarView(){
+        viewPuntoVenta.modeloTabla.setRowCount(0);
+        totalCompra = 0;
+        totalProductos = 0;
+    } //End reiniciarView
 
     private void agregarProductoVenta(String[] informacionProductoAgregar ){
         
@@ -107,8 +171,10 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
                     if (cantidad>producto.getCantidadDisponible())
                         throw new UnsupportedOperationException();
     
+                    //Reducir la disponibilidad del articulo en el model
                     solicitaActualizacionDelModel("DecrementarDisponibilidad " + i + " " + cantidad);
                     
+                    //Calcular el total a agregar a la venta
                     double subtotalProducto = producto.getPrecioVenta()*cantidad;
 
                     //Actualizar el contenido de la tabla
