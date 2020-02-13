@@ -292,7 +292,7 @@ public class InterfazAgregarProducto extends JDialog implements View {
 
 
     /**
-     * El metodo designa el control del view al Controller dado
+     * El metodo designa el control del view al Controller dado de los eventos tipo Action
      * @param theController Controlador de la interfaz
      */
     @Override
@@ -302,6 +302,10 @@ public class InterfazAgregarProducto extends JDialog implements View {
         campoUnidadVenta.addActionListener(theController);
     } //End setActionListener
 
+    /**
+     * El metodo designa el control del view al Controller dado de los eventos tipo Focus
+     * @param theController Controlador de la interfaz
+     */
     public void setFocusListener(ControllerInterfazAgregarProducto theController) {
         campoCodigo.addFocusListener(theController);
         campoDescripcion.addFocusListener(theController);
@@ -311,6 +315,10 @@ public class InterfazAgregarProducto extends JDialog implements View {
         campoDisponibilidad.addFocusListener(theController);
     } //End setFocusListener
 
+    /**
+     * El metodo designa el control del view al Controller dado de los eventos tipo Key
+     * @param theController Controlador de la interfaz
+     */
     public void setKeyListener(ControllerInterfazAgregarProducto theController) {
         campoCodigo.addKeyListener(theController);
         campoDescripcion.addKeyListener(theController);
@@ -331,7 +339,7 @@ public class InterfazAgregarProducto extends JDialog implements View {
     } //End iniciar interfaz
 
     /**
-     * El metodo oculta la interfaz
+     * El metodo quita la visibilidad de la ventana
      */
     public void ocultarInterfaz(){
         setVisible(false);
