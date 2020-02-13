@@ -59,8 +59,10 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
             producto.setCantidadDisponible(producto.getCantidadDisponible()-Double.parseDouble(acciones[2]));
         } //End if
         
-        else if (accion.equals("IncrementarDisponibilidad")){
+        else if (accion.startsWith("IncrementarDisponibilidad")){
+
             producto.setCantidadDisponible(producto.getCantidadDisponible()+Double.parseDouble(acciones[2]));
+
         } //End elseif
 
         modelProductos.salvaDatosDeLaEstructuraAlRepositorio();
@@ -75,23 +77,58 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
             agregarProductoVenta( obtieneDatoDelView() );
 
         else if (boton == viewPuntoVenta.botonAbortarVenta){
-            Dialogo dialogo = new Dialogo(  "Abortar una venta", 
-                                            "¿Confirma que desea abortar la venta actual?",
-                                            Dialogo.MENSAJE_ADVERTENCIA);
-            dialogo.iniciarInterfaz();
 
-            //Reiniciar el view si el usuario confirma el abortaje de la venta 
-            if (dialogo.seAceptaLaAccion()){
-                reiniciarView();
-            } //End if
+            if (viewPuntoVenta.modeloTabla.getRowCount()>0){
+                Dialogo dialogo = new Dialogo(  "Abortar una venta", 
+                                                "¿Confirma que desea abortar la venta actual?",
+                                                Dialogo.MENSAJE_ADVERTENCIA);
+                dialogo.iniciarInterfaz();
 
+                //Reiniciar el view si el usuario confirma el abortaje de la venta 
+                if (dialogo.seAceptaLaAccion()){
+                    reiniciarView();
+                } //End if
+            } //End if 
         } //End elseif
 
         else if (boton == viewPuntoVenta.botonQuitarProducto){
-            Dialogo dialogo = new Dialogo(  "Quitar un producto de la venta", 
-                                            "¿Confirma que desea quitar el producto seleccionado?",
-                                            Dialogo.MENSAJE_ADVERTENCIA);
-            dialogo.iniciarInterfaz();
+
+            if (viewPuntoVenta.modeloTabla.getRowCount()>0){
+
+                Dialogo dialogo = new Dialogo(  "Quitar un producto de la venta", 
+                                                "¿Confirma que desea quitar el producto seleccionado?",
+                                                Dialogo.MENSAJE_ADVERTENCIA);
+                dialogo.iniciarInterfaz();
+
+                
+                if (dialogo.seAceptaLaAccion()){
+
+                    Producto producto;
+
+                    for (int i=0;i<modelProductos.size();i++){
+
+                        //Obtener el producto i del model
+                        producto = obtieneDatoDelModel(i);
+
+                        /*De la informacion del view extraer el codigo de barras y ver si 
+                        coincide con el codigo del producto i en el model*/
+                        if (producto.getCodigo()== (int) viewPuntoVenta.modeloTabla.getValueAt(i, 1)){
+                            solicitaActualizacionDelModel("IncrementarDisponibilidad "+i+" "+viewPuntoVenta.modeloTabla.getValueAt(i, 0));
+                            
+                            totalCompra -= Double.parseDouble(((String)viewPuntoVenta.modeloTabla.getValueAt(i, 5)).replace("$", ""));
+                            totalProductos -= (double) viewPuntoVenta.modeloTabla.getValueAt(i, 0);
+
+                            viewPuntoVenta.modeloTabla.removeRow(viewPuntoVenta.tablaProductos.getSelectedRow());
+                            actualizaElView();
+
+                            break;
+                        }
+                    } //End for
+
+                } //End if 
+
+            } //End if 
+
         } //End elseif 
 
         else if (boton == viewPuntoVenta.botonFinalizar){
