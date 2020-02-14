@@ -84,9 +84,16 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
                                                 Dialogo.MENSAJE_ADVERTENCIA);
                 dialogo.iniciarInterfaz();
 
+
+
                 //Reiniciar el view si el usuario confirma el abortaje de la venta 
                 if (dialogo.seAceptaLaAccion()){
-                    reiniciarView();
+                    
+                    while(viewPuntoVenta.modeloTabla.getRowCount()>0){
+                        viewPuntoVenta.tablaProductos.setRowSelectionInterval(0, 0);
+                        quitarArticuloDeColumnaSeleccionada();
+                    }
+                    
                 } //End if
             } //End if 
         } //End elseif
@@ -103,27 +110,8 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
                 
                 if (dialogo.seAceptaLaAccion()){
 
-                    Producto producto;
-
-                    for (int i=0;i<modelProductos.size();i++){
-
-                        //Obtener el producto i del model
-                        producto = obtieneDatoDelModel(i);
-
-                        /*De la informacion del view extraer el codigo de barras y ver si 
-                        coincide con el codigo del producto i en el model*/
-                        if (producto.getCodigo()== (int) viewPuntoVenta.modeloTabla.getValueAt(i, 1)){
-                            solicitaActualizacionDelModel("IncrementarDisponibilidad "+i+" "+viewPuntoVenta.modeloTabla.getValueAt(i, 0));
-                            
-                            totalCompra -= Double.parseDouble(((String)viewPuntoVenta.modeloTabla.getValueAt(i, 5)).replace("$", ""));
-                            totalProductos -= (double) viewPuntoVenta.modeloTabla.getValueAt(i, 0);
-
-                            viewPuntoVenta.modeloTabla.removeRow(viewPuntoVenta.tablaProductos.getSelectedRow());
-                            actualizaElView();
-
-                            break;
-                        }
-                    } //End for
+                    
+                    quitarArticuloDeColumnaSeleccionada();
 
                 } //End if 
 
@@ -316,5 +304,30 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
         } //End try
         catch (NumberFormatException excepcion){} //End catch
     } //End try
+
+    private void quitarArticuloDeColumnaSeleccionada(){
+
+        Producto producto;
+
+        for (int i=0;i<modelProductos.size();i++){
+
+            //Obtener el producto i del model
+            producto = obtieneDatoDelModel(i);
+
+            /*De la informacion del view extraer el codigo de barras y ver si 
+            coincide con el codigo del producto i en el model*/
+            if (producto.getCodigo()== (int) viewPuntoVenta.modeloTabla.getValueAt(i, 1)){
+                solicitaActualizacionDelModel("IncrementarDisponibilidad "+i+" "+viewPuntoVenta.modeloTabla.getValueAt(i, 0));
+                
+                totalCompra -= Double.parseDouble(((String)viewPuntoVenta.modeloTabla.getValueAt(i, 5)).replace("$", ""));
+                totalProductos -= (double) viewPuntoVenta.modeloTabla.getValueAt(i, 0);
+
+                viewPuntoVenta.modeloTabla.removeRow(viewPuntoVenta.tablaProductos.getSelectedRow());
+                actualizaElView();
+
+                break;
+            }
+        } //End for
+    }
 
 } //End class
