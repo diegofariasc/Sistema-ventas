@@ -100,4 +100,39 @@ public class BaseDatosProductos extends ArrayList<Producto> implements Model {
         return !isEmpty();
     } //End hayDatos
 
+    public int obtenerTamano(){
+        return size();
+    } //End obtenerTamano
+
+    public Producto buscarProducto(int codigo){
+        
+        for (int i=0; i<obtenerTamano();i++){
+
+            Producto producto = get(i);
+
+            if (producto.getCodigo() == codigo)
+                return producto;
+        } //End for
+    
+
+        return null;
+
+    } //End buscarCodigoBarras
+
+    
+    public int buscarIndice(int codigo){
+        
+        for (int i=0; i<obtenerTamano();i++){
+
+            Producto producto = get(i);
+
+            if (producto.getCodigo() == codigo)
+                return i;
+        } //End for
+    
+
+        return -1;
+
+    } //End buscarCodigoBarras
+
 } //End class

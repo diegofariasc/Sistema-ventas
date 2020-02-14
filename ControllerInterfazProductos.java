@@ -76,6 +76,10 @@ public class ControllerInterfazProductos implements Controller {
             modelProductos.eliminaDatosDeLaEstructura(obtieneDatoDelView());
         } //End if
 
+        else if (accion.startsWith("Ordenar")){
+            modelProductos.ordenaLaEstructura();
+        } //End else if
+
         else if (accion.startsWith("CambiarCantidad")) {
             
             double cantidad = Double.parseDouble(accion.split(" ")[1]);
@@ -172,6 +176,11 @@ public class ControllerInterfazProductos implements Controller {
 
         else if(boton == viewProductos.botonRegresar){
             viewProductos.ocultarInterfaz();
+        } //End elseif 
+
+        else if(boton == viewProductos.botonOrdenarProductos){
+            solicitaActualizacionDelModel("Ordenar");
+            actualizaElView();
         } //End elseif 
 
     } //End actionPerformed

@@ -52,16 +52,18 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
 	@Override
 	public void solicitaActualizacionDelModel(String accion) {
 
-        String[] acciones = accion.split(" ");
-        Producto producto = modelProductos.get(Integer.parseInt(acciones[1]));
+        String[] acciones = accion.split(" ");  
+        int      indice   = Integer.parseInt(acciones[1]);
+        double   cantidad = Double.parseDouble(acciones[2]);
+        Producto producto = obtieneDatoDelModel(indice);
 
 		if (accion.startsWith("DecrementarDisponibilidad")){
-            producto.setCantidadDisponible(producto.getCantidadDisponible()-Double.parseDouble(acciones[2]));
+            producto.setCantidadDisponible(producto.getCantidadDisponible()-cantidad);
         } //End if
         
         else if (accion.startsWith("IncrementarDisponibilidad")){
 
-            producto.setCantidadDisponible(producto.getCantidadDisponible()+Double.parseDouble(acciones[2]));
+            producto.setCantidadDisponible(producto.getCantidadDisponible()+cantidad);
 
         } //End elseif
 
@@ -69,6 +71,7 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
 
 	} //End solicitaActualizacionDelModel
 
+    
 	@Override
 	public void actionPerformed(ActionEvent evento) {
 		JButton boton = (JButton) evento.getSource();
@@ -307,27 +310,34 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
 
     private void quitarArticuloDeColumnaSeleccionada(){
 
-        Producto producto;
-
-        for (int i=0;i<modelProductos.size();i++){
-
-            //Obtener el producto i del model
-            producto = obtieneDatoDelModel(i);
-
-            /*De la informacion del view extraer el codigo de barras y ver si 
-            coincide con el codigo del producto i en el model*/
-            if (producto.getCodigo()== (int) viewPuntoVenta.modeloTabla.getValueAt(i, 1)){
-                solicitaActualizacionDelModel("IncrementarDisponibilidad "+i+" "+viewPuntoVenta.modeloTabla.getValueAt(i, 0));
+        // Extraer la cantidad y codigo del producto a quitar de la tabla en el view
+        int      seleccion = obtenerFilaSeleccionadaView(); 
+        double   cantidad  = (double) viewPuntoVenta.modeloTabla.getValueAt(seleccion, 0);
+        int      codigo    = (int)    viewPuntoVenta.modeloTabla.getValueAt(seleccion, 1);
+        
+        // Llamar a la actualizacion del model
+        solicitaActualizacionDelModel("IncrementarDisponibilidad "+ modelProductos.buscarIndice(codigo)+" "+cantidad);
                 
-                totalCompra -= Double.parseDouble(((String)viewPuntoVenta.modeloTabla.getValueAt(i, 5)).replace("$", ""));
-                totalProductos -= (double) viewPuntoVenta.modeloTabla.getValueAt(i, 0);
+        // Actualizacion de los totales**
 
-                viewPuntoVenta.modeloTabla.removeRow(viewPuntoVenta.tablaProductos.getSelectedRow());
-                actualizaElView();
+        // Obtener el subtotal a quitar del view y quitarle el signo de pesos
+        String subtotalString = (String) viewPuntoVenta.modeloTabla.getValueAt(seleccion, 5);
+        subtotalString = subtotalString.replace("$", "");
 
-                break;
-            }
-        } //End for
-    }
+        // Convertir el string a double para poder restarlo
+        double subtotal = Double.parseDouble(subtotalString);
+
+        // Actualizar totales
+        totalCompra    -= subtotal;
+        totalProductos -= cantidad;
+
+        // Modificar el view
+        viewPuntoVenta.modeloTabla.removeRow(seleccion);
+
+    } // End quitarArticuloDeColumnaSeleccionada
+
+    private int obtenerFilaSeleccionadaView(){
+        return viewPuntoVenta.tablaProductos.getSelectedRow();
+    } //End obtenerFilaSeleccionadaView
 
 } //End class

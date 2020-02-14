@@ -30,8 +30,10 @@ public class InterfazProductos extends JDialog implements View {
     JLabel              labelDescripcionEditarProducto;
     JLabel              labelDescripcionEliminarProducto;
     JLabel              labelDescripcionRegistrarAbastecimientoProducto;
+    JLabel              labelDescripcionOrdenarProductos;
     JLabel              labelDescripcionBuscar;
     JButton             botonRegresar;
+    JButton             botonOrdenarProductos;;
     JButton             botonNuevoProducto;
     JButton             botonEditarProducto;
     JButton             botonEliminarProducto;
@@ -128,13 +130,24 @@ public class InterfazProductos extends JDialog implements View {
 
         //Boton para registrar la entrada al almacen del producto
         botonRegistrarAbastecimientoProducto = new JButton(new ImageIcon("Iconos/Icono_registrarAbastecimientoProducto.png"));
-        botonRegistrarAbastecimientoProducto.setLocation(LARGO_VENTANA-310,5);
+        botonRegistrarAbastecimientoProducto.setLocation(LARGO_VENTANA-365,5);
         botonRegistrarAbastecimientoProducto.setSize(35,35);
         botonRegistrarAbastecimientoProducto.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonRegistrarAbastecimientoProducto.setBorderPainted(false);
         botonRegistrarAbastecimientoProducto.setContentAreaFilled(false);
         botonRegistrarAbastecimientoProducto.setToolTipText("Registrar la entrada de unidades del producto seleccionado al almacen");
         panelTitulo.add(botonRegistrarAbastecimientoProducto);
+
+        //Boton para ordenar producto
+        botonOrdenarProductos = new JButton(new ImageIcon("Iconos/Icono_ordenarProductos.png"));
+        botonOrdenarProductos.setLocation(LARGO_VENTANA-285,5);
+        botonOrdenarProductos.setSize(35,35);
+        botonOrdenarProductos.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonOrdenarProductos.setBorderPainted(false);
+        botonOrdenarProductos.setContentAreaFilled(false);
+        botonOrdenarProductos.setToolTipText("Registrar un nuevo producto");
+        botonOrdenarProductos.setToolTipText("Ordenar los productos de manera ascendente segun su descripcion");
+        panelTitulo.add(botonOrdenarProductos);
 
         //Boton para agregar producto
         botonNuevoProducto = new JButton(new ImageIcon("Iconos/Icono_agregarProducto.png"));
@@ -236,9 +249,18 @@ public class InterfazProductos extends JDialog implements View {
         labelDescripcionAgregarProducto.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         panelTitulo.add(labelDescripcionAgregarProducto);
 
+        //Etiqueta para indicar el funcionamiento del boton ordenar
+        labelDescripcionOrdenarProductos = new JLabel("Ordenar");
+        labelDescripcionOrdenarProductos.setLocation(LARGO_VENTANA-293,37);
+        labelDescripcionOrdenarProductos.setSize(51,20);
+        labelDescripcionOrdenarProductos.setHorizontalAlignment(JLabel.CENTER);
+        labelDescripcionOrdenarProductos.setForeground(Color.WHITE);
+        labelDescripcionOrdenarProductos.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        panelTitulo.add(labelDescripcionOrdenarProductos);
+
         //Etiqueta para indicar el funcionamiento del boton de registrar entrada al almacen
         labelDescripcionRegistrarAbastecimientoProducto = new JLabel("Abastecer");
-        labelDescripcionRegistrarAbastecimientoProducto.setLocation(LARGO_VENTANA-325,37);
+        labelDescripcionRegistrarAbastecimientoProducto.setLocation(LARGO_VENTANA-380,37);
         labelDescripcionRegistrarAbastecimientoProducto.setSize(65,20);
         labelDescripcionRegistrarAbastecimientoProducto.setHorizontalAlignment(JLabel.CENTER);
         labelDescripcionRegistrarAbastecimientoProducto.setForeground(Color.WHITE);
@@ -314,6 +336,7 @@ public class InterfazProductos extends JDialog implements View {
         botonRegresar.addActionListener(theController);
         botonBuscar.addActionListener(theController);
         botonQuitarFiltro.addActionListener(theController);
+        botonOrdenarProductos.addActionListener(theController);
     } //End setActionListener
 
 

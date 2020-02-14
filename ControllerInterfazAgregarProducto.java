@@ -116,13 +116,14 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
     public void actionPerformed(ActionEvent evento) {
 
         //Si el que acciono el evento es el campo de unidad de venta
-        if (evento.getSource().getClass() == viewAgregarProducto.campoUnidadVenta.getClass()){
+        if (evento.getSource()== viewAgregarProducto.campoUnidadVenta){
 
             /*Validar el campo de disponibilidad.
             Esto evita que si se cambia el valor del JComboBox unidadVenta despues de ingresar
             la disponibilidad se considere valido*/
             validarCampoDisponibilidad();
             actualizaElView();
+            
         } //End if
 
         //De lo contrario, el evento que lo acciono fue uno de los botones
@@ -242,17 +243,18 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
             
         try{
 
+            int codigoBarras = Integer.parseInt(viewAgregarProducto.campoCodigo.getText());
+
             //Verificar si el codigo de barras es mayor que 0
-            if (Integer.parseInt(viewAgregarProducto.campoCodigo.getText())<0){
+            if (codigoBarras<0)
                 campoCodigoEsValido = false;
-            } //End if
 
             // Si no: 
             else{
                 //Revisar si en la base de datos ya hay un articulo con el mismo codigo
-                for (int i=0; i<modelProductos.size();i++){
-                    if (obtieneDatoDelModel(i).getCodigo() == 
-                    Integer.parseInt(viewAgregarProducto.campoCodigo.getText())){
+                for (int i=0; i<modelProductos.obtenerTamano();i++){
+                    
+                    if (obtieneDatoDelModel(i).getCodigo() == codigoBarras){
                         
                         //Hubo coincidencia. Indicar que el valor escrito en el campo es invalido
                         campoCodigoEsValido = false;
