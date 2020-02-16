@@ -1,3 +1,7 @@
+/**
+ * La clase representa el punto de entrada de la aplicacion
+ * @author Diego Farias Castro
+ */
 public class Main{
     public static void main (String[] args){
 

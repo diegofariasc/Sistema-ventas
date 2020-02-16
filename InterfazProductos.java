@@ -14,9 +14,14 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+/**
+ * La clase representa el view para visualizar la lista de productos
+ * @author Diego Farias Castro
+ */
 @SuppressWarnings("serial")
 public class InterfazProductos extends JDialog implements View {
 
+    //Constantes para construir la ventana
     private static final int LARGO_VENTANA = 1000;
     private static final int ALTO_VENTANA  = 600;
 
@@ -347,7 +352,7 @@ public class InterfazProductos extends JDialog implements View {
 
 
      /************************************************
-     * Metodos de la clase
+     * Metodos
      *************************************************/
     /**
      * El metodo lanza la interfaz tras su construccion

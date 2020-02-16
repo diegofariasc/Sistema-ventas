@@ -14,9 +14,14 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+/**
+ * La clase representa el view del punto de venta
+ * @author Diego Farias Castro
+ */
 @SuppressWarnings("serial")
 public class InterfazPuntoVenta extends JFrame implements View {
 
+    //Constantes para construir la ventana
     private static final int LARGO_VENTANA = 750;
     private static final int ALTO_VENTANA  = 550;
 
@@ -354,7 +359,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
     } //End setFocusListener
 
      /************************************************
-     * Metodos de la clase
+     * Metodos
      *************************************************/
     /**
      * El metodo lanza la interfaz tras su construccion

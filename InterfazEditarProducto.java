@@ -9,9 +9,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * La clase representa el view para editar un producto
+ * @author Diego Farias Castro
+ */
 @SuppressWarnings("serial")
 public class InterfazEditarProducto extends JDialog implements View {
 
+    //Constantes para construir la ventana
     private static final int LARGO_VENTANA = 400;
     private static final int ALTO_VENTANA  = 410;
 
@@ -179,7 +184,7 @@ public class InterfazEditarProducto extends JDialog implements View {
         botonCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(botonCancelar);
 
-        //Boton para editar el producto
+        //Boton para aceptar la edicion del producto
         botonAceptar = new JButton("Aceptar");
         botonAceptar.setLocation(LARGO_VENTANA-118,ALTO_VENTANA-63);
         botonAceptar.setSize(100,25);
@@ -328,7 +333,7 @@ public class InterfazEditarProducto extends JDialog implements View {
     } //End setFocusListener
 
      /************************************************
-     * Metodos de la clase
+     * Metodos
      *************************************************/
     /**
      * El metodo lanza la interfaz tras su construccion
