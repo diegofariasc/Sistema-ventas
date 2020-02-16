@@ -8,6 +8,9 @@ import javax.swing.JTextField;
 
 /**
  * La clase representa el controller para la clase (View) InterfazPuntoVenta
+ * Implementa Controller (requerida) asi como KeyListener (para cambiar la activacion
+ * del boton finalizar mientras el usuario escribe) y FocusListener (Para dar
+ * formato a dos decimales al campo de recibido)
  * @author Diego Farias Castro
  */
 public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements KeyListener, FocusListener {
@@ -73,6 +76,7 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
 
 	} //End actualizaElView
 
+
     /**
      * El metodo recibe una accion en formato String que se compone:
      * "Accion indice cantidad"
@@ -108,14 +112,26 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
 
 	} //End solicitaActualizacionDelModel
 
-    
+
+    /**
+     * El metodo es llamado automaticamente cuando ocurre algun evento 
+     * tipo Action en el view. Este, responde dependiendo el control que 
+     * causo su invocacion
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */    
 	@Override
 	public void actionPerformed(ActionEvent evento) {
-		JButton boton = (JButton) evento.getSource();
         
-        if (boton == viewPuntoVenta.botonAgregar)
+        //Obtener el objeto que causo el evento
+        JButton boton = (JButton) evento.getSource();
+        
+        //Si fue el boton agregar
+        if (boton == viewPuntoVenta.botonAgregar){
             agregarProductoVenta( obtieneDatoDelView() );
+            actualizaElView();
+        } //End if
 
+        //Si fue el boton abortar
         else if (boton == viewPuntoVenta.botonAbortarVenta){
 
             if (viewPuntoVenta.modeloTabla.getRowCount()>0){
@@ -135,47 +151,132 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
                     }
                     
                 } //End if
+
             } //End if 
+
         } //End elseif
 
+        //Si fue el boton quitar producto
         else if (boton == viewPuntoVenta.botonQuitarProducto){
 
-            if (viewPuntoVenta.modeloTabla.getRowCount()>0){
+            // Si la fila seleccionada es mayor o igual a 0
+            if (viewPuntoVenta.tablaProductos.getSelectedRow()>=0) {
 
+                //Lanzar dialogo de advertencia
                 Dialogo dialogo = new Dialogo(  "Quitar un producto de la venta", 
                                                 "¿Confirma que desea quitar el producto seleccionado?",
                                                 Dialogo.MENSAJE_ADVERTENCIA);
                 dialogo.iniciarDialogo();
 
-                
+                //Ver si se acepta la eliminacion
                 if (dialogo.seAceptaLaAccion()){
 
-                    
+                    //Si se acepta, quitar la columna seleccionada
                     quitarArticuloDeColumnaSeleccionada();
 
                 } //End if 
-
             } //End if 
+
+            actualizaElView();
 
         } //End elseif 
 
+        //Si fue el boton de finalizar
         else if (boton == viewPuntoVenta.botonFinalizar){
+
+            //Informar que la venta fue exitosa y reiniciar el view
             Dialogo dialogo = new Dialogo(  "Venta finalizada", 
                                             "Se ha concluido exitosamente la venta actual",
                                             Dialogo.MENSAJE_INFORMATIVO);
             dialogo.iniciarDialogo();
-            reiniciarView();
+            reiniciar();
+            actualizaElView();
         } //End elseif 
 
+        //Si fue el boton de consultar la lista de precios
         else if (boton == viewPuntoVenta.botonConsultarListaPrecios){
             mostrarListaPrecios();
-            viewPuntoVenta.iniciarInterfaz();
         } //End if 
 
-        actualizaElView();
-        
     } //End actionPerformed
 
+
+    /************************************************
+    * Implementacion de la interfaz FocusListener
+    *************************************************/   
+
+    /**
+     * El metodo es llamado automaticamente cuando el usuario desenfoca 
+     * (o activa otro) control determinado
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */
+    @Override
+    public void focusLost(FocusEvent evento) {
+
+        JTextField campoDesenfocado = (JTextField) evento.getSource();
+        
+        //Ver si el campo de recibido fue el que perdio el foco
+        if (campoDesenfocado == viewPuntoVenta.campoRecibido){
+
+            try{
+                //Formatear a dos decimales el campo
+                double recibido = Double.parseDouble(viewPuntoVenta.campoRecibido.getText());
+                viewPuntoVenta.campoRecibido.setText(String.format("%.2f",recibido));
+            } //End try
+            catch (NumberFormatException exception) {}
+
+        } //End if
+
+    } //End focusLost
+
+    //Evento no necesario pero agregado para cumplir con la interfaz
+    @Override
+    public void focusGained(FocusEvent e) {}
+
+
+    /************************************************
+    * Implementacion de la interfazKeyListener
+    *************************************************/   
+
+
+   /**
+     * El metodo es llamado automaticamente cuando el despues 
+     * de que el usuario presionara una tecla en un control determinado
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */
+    @Override
+    public void keyReleased(KeyEvent evento) {
+
+        JTextField campoAccionado = (JTextField) evento.getSource();
+        
+        if (campoAccionado == viewPuntoVenta.campoRecibido)
+            validarActivacionBotonFinalizar();
+
+        if (campoAccionado == viewPuntoVenta.campoAgregar || campoAccionado == viewPuntoVenta.campoCantidadAgregar )
+            if (evento.getKeyCode() == KeyEvent.VK_ENTER){
+                agregarProductoVenta(obtieneDatoDelView());
+                actualizaElView();
+            } //End if
+
+    } //End keyReleased
+
+    //Eventos no necesarios pero agregados para cumplir con la interfaz
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent evento) {}
+
+
+
+    /************************************************
+    * Metodos
+    *************************************************/    
+
+    /**
+     * El metodo genera un nuevo view y controller correspondiente
+     * a la InterfazProductos, los asocia y muestra la nueva ventana
+     */
     private void mostrarListaPrecios(){
 
         //Proceso para llamar a la interfaz de productos 
@@ -197,71 +298,81 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
 
     } //End mostrarListaPrecios
     
-    private void reiniciarView(){
+
+    /**
+     * El metodo reinicia el estado de la ventana 
+     */
+    private void reiniciar(){
         viewPuntoVenta.modeloTabla.setRowCount(0);
         totalCompra = 0;
         totalProductos = 0;
-    } //End reiniciarView
+    } //End reiniciar
 
+
+    /**
+     * El metodo agrega un producto a la venta actual.
+     * Recibe como parametro un arreglo de strings 
+     * @param informacionProductoAgregar
+     */
     private void agregarProductoVenta(String[] informacionProductoAgregar ){
         
-        Producto producto;
         boolean  seAgregoElProducto = false;
 
         try{
-            for (int i=0;i<modelProductos.size();i++){
+
+            //Obtener el codigo del view
+            int codigo = Integer.parseInt(informacionProductoAgregar[0]);
+
+            //Basado en el codigo de barras, obtener el indice del producto en el model
+            int indice = buscarIndiceEnModel(codigo);
+            
+            //Ver si hubo coincidencias
+            if (indice!=-1 ){
+
+                //Recuperar el producto
+                Producto producto = obtieneDatoDelModel(indice);
+
+                double cantidad;
                 
-                //Obtener el producto i del model
-                producto = obtieneDatoDelModel(i);
+                /*Ver si la unidad de venta es fraccionable y si es asi sumar 
+                la cantidad con decimales al total de productos*/
+                
+                if (producto.getUnidadVenta()== Producto.KILO || 
+                    producto.getUnidadVenta()== Producto.LITRO )
+                    cantidad = Double.parseDouble(informacionProductoAgregar[1]);
+                
+                //Si no, sumar un entero
+                else
+                    cantidad = Integer.parseInt(informacionProductoAgregar[1]);
+                
+                //Verificar si hay suficiente stock para realizar la operacion
+                if (cantidad>producto.getCantidadDisponible())
+                    throw new UnsupportedOperationException();
 
-                /*De la informacion del view extraer el codigo de barras y ver si 
-                coincide con el codigo del producto i en el model*/
-                if (producto.getCodigo()== Integer.parseInt(informacionProductoAgregar[0])){
+                //Reducir la disponibilidad del articulo en el model
+                solicitaActualizacionDelModel("DecrementarDisponibilidad " + indice + " " + cantidad);
+                
+                //Calcular el total a agregar a la venta
+                double subtotalProducto = producto.getPrecioVenta()*cantidad;
 
-                    double cantidad;
-                    
-                    /*Ver si la unidad de venta es fraccionable y si es asi sumar 
-                    la cantidad con decimales al total de productos*/
-                    
-                    if (producto.getUnidadVenta()== Producto.KILO || 
-                        producto.getUnidadVenta()== Producto.LITRO )
-                        cantidad = Double.parseDouble(informacionProductoAgregar[1]);
-                    
-                    //Si no, sumar un entero
-                    else
-                        cantidad = Integer.parseInt(informacionProductoAgregar[1]);
-                    
-                    //Verificar si hay suficiente stock para realizar la operacion
-                    if (cantidad>producto.getCantidadDisponible())
-                        throw new UnsupportedOperationException();
-    
-                    //Reducir la disponibilidad del articulo en el model
-                    solicitaActualizacionDelModel("DecrementarDisponibilidad " + i + " " + cantidad);
-                    
-                    //Calcular el total a agregar a la venta
-                    double subtotalProducto = producto.getPrecioVenta()*cantidad;
+                //Actualizar el contenido de la tabla
+                viewPuntoVenta.modeloTabla.addRow(new Object[]{
+                    cantidad,
+                    producto.getCodigo(),
+                    producto.getDescripcion(),     
+                    producto.getUnidadVentaStr(),
+                    String.format("$%.2f",producto.getPrecioVenta()),
+                    String.format("$%.2f",subtotalProducto)
+                }); //End addRow
 
-                    //Actualizar el contenido de la tabla
-                    viewPuntoVenta.modeloTabla.addRow(new Object[]{
-                        cantidad,
-                        producto.getCodigo(),
-                        producto.getDescripcion(),     
-                        producto.getUnidadVentaStr(),
-                        String.format("$%.2f",producto.getPrecioVenta()),
-                        String.format("$%.2f",subtotalProducto)
-                    });
+                //Modificar los totales de la compra
+                totalCompra += subtotalProducto;
+                totalProductos += cantidad;
 
-                    //Modificar los totales de la compra
-                    totalCompra += subtotalProducto;
-                    totalProductos += cantidad;
+                //Indicar que se agrego el producto
+                seAgregoElProducto = true;
 
-                    //Indicar que se agrego el producto
-                    seAgregoElProducto = true;
-                    break;
-
-                } //End if
-
-            } //End for
+            } //End if
 
             /*Si el producto se agrego, quitar cualquier aviso de error
             de lo contrario, indicar que el producto no esta presente en la base de datos*/
@@ -274,6 +385,7 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
 
         } //End try
 
+        //La excepcion es lanzada manualmente en caso que no haya stock suficiente
         catch (UnsupportedOperationException excepcion){
             
             viewPuntoVenta.labelError.setText("No hay suficiente stock para agregar a la venta");
@@ -281,6 +393,7 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
 
         } //End catch
 
+        //La excepcion se lanza si no es posible convertir algun valor a numero
         catch (NumberFormatException excepcion){
             
             viewPuntoVenta.labelError.setText("La informacion proporcionada es invalida");
@@ -289,59 +402,41 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
         } //End catch
     } //End agregarProductoVenta
 
-    @Override
-    public void focusGained(FocusEvent e) {}
 
-    @Override
-    public void focusLost(FocusEvent evento) {
-
-        JTextField campoDesenfocado = (JTextField) evento.getSource();
-        
-        if (campoDesenfocado == viewPuntoVenta.campoRecibido){
-
-            validarActivacionBotonFinalizar();
-            double recibido = Double.parseDouble(viewPuntoVenta.campoRecibido.getText());
-            viewPuntoVenta.campoRecibido.setText(String.format("%.2f",recibido));
-
-        } //End if
-
-    } //End focusLost
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
-
-    @Override
-    public void keyPressed(KeyEvent evento) {} //End keyPress
-
-    @Override
-    public void keyReleased(KeyEvent evento) {
-
-        JTextField campoAccionado = (JTextField) evento.getSource();
-        
-        if (campoAccionado == viewPuntoVenta.campoRecibido)
-            validarActivacionBotonFinalizar();
-
-        if (campoAccionado == viewPuntoVenta.campoAgregar || campoAccionado == viewPuntoVenta.campoCantidadAgregar )
-            if (evento.getKeyCode() == KeyEvent.VK_ENTER){
-                agregarProductoVenta(obtieneDatoDelView());
-                actualizaElView();
-            } //End if
-
-    } //End keyReleased
-
+    /**
+     * Activar o desactivar el boton de finalizar 
+     * basado en el contenido del campo de monto recibido
+     */
     private void validarActivacionBotonFinalizar(){
+
         try{
 
+            //Obtener el monto recibido
             double recibido = Double.parseDouble(viewPuntoVenta.campoRecibido.getText());
+
+            //Ver si cubre el total de la venta y si hay mas de un producto en la venta 
             if (recibido>=totalCompra && totalProductos > 0)
+
+                //Activar el boton finalizar de ser asi
                 viewPuntoVenta.botonFinalizar.setEnabled(true);
             else
                 viewPuntoVenta.botonFinalizar.setEnabled(false);
 
-        } //End try
-        catch (NumberFormatException excepcion){} //End catch
-    } //End try
 
+        } //End try
+
+        //En caso que el campo de recibido no tenga un valor numerico
+        catch (NumberFormatException excepcion){
+            viewPuntoVenta.botonFinalizar.setEnabled(false);
+        } //End catch
+
+    } //End validarActivacionBotonFinalizar
+
+
+    /**
+     * El metodo obtiene la columna seleccionada en el view, la remueve 
+     * y actualiza los totales de venta
+     */
     private void quitarArticuloDeColumnaSeleccionada(){
 
         // Extraer la cantidad y codigo del producto a quitar de la tabla en el view
@@ -370,6 +465,10 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
 
     } // End quitarArticuloDeColumnaSeleccionada
 
+    /**
+     * El metodo obtiene el indice de la fila seleccionada en el view
+     * @return FilaSeleccionada 
+     */
     private int obtenerFilaSeleccionadaView(){
         return viewPuntoVenta.tablaProductos.getSelectedRow();
     } //End obtenerFilaSeleccionadaView

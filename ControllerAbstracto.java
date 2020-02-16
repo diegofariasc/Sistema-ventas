@@ -1,18 +1,20 @@
 
 /**
  * La clase abstracta implementa la interfaz Controller, obligando
- * a todas sus subclases (Todos los controllers) a implementarla. 
+ * a todas sus subclases (Todos los controllers) a implementarla implicitamente. 
  * Ademas, incluye un atributo tipo BaseDatosProductos (que es comun en todos los
- * controllers)
+ * controllers, para evitar su declaracion en cada uno)
  * Finalmente, incluye el metodo obtieneDatoDelModel, cuya implementacion es 
  * identica en todos los controllers asi como BuscarIndiceEnModel 
  * (que, se requiere en todos los controllers bajo una misma implementacion)
  * Con esto, se previene la replicacion de codigo en los controllers. 
  * En vez de ello, se heredan de esta clase abstracta
+ * @author Diego Farias Castro
  */
 
 public abstract class ControllerAbstracto implements Controller {
 
+    //Representar el model de cada controller
     BaseDatosProductos modelProductos;
 
     /**
@@ -49,4 +51,5 @@ public abstract class ControllerAbstracto implements Controller {
         return -1;
 
     } //End buscarIndiceEnModel
-}
+
+} //End controllerAbstracto

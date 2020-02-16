@@ -8,10 +8,8 @@ import javax.swing.JButton;
  */
 public class ControllerInterfazProductos extends ControllerAbstracto {
 
-    private InterfazProductos       viewProductos;
-
+    private InterfazProductos viewProductos;
     private String filtro;  
-
 
     /************************************************
     * Constructor de la clase

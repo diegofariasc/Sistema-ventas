@@ -117,10 +117,9 @@ public class ControllerInterfazEditarProducto extends ControllerAbstracto implem
         viewEditarProducto.botonAceptar.setEnabled( campoDescripcionEsValido && 
                                                     camposPrecioSonValidos && campoDepartamentoEsValido && 
                                                     campoDisponibilidadEsValido);
-
-
     } // End actualizaElView
 
+    
     /**
      * El metodo lleva a cabo la accion de actualizacion del model 
      */

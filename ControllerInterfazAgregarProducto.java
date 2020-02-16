@@ -296,10 +296,11 @@ public class ControllerInterfazAgregarProducto extends ControllerAbstracto imple
             else{
                 
                 //Revisar si en la base de datos ya hay un articulo con el mismo codigo
-                int indiceProducto = buscarIndiceEnModel(codigoBarras);
+                int producto = buscarIndiceEnModel(codigoBarras);
                     
-                //Indicar que lo escrito en el campo de codigo es valido solo si el indice del producto es -1
-                campoCodigoEsValido = indiceProducto==-1;
+                /*Indicar que lo escrito en el campo de codigo es valido solo si el indice del producto es -1
+                (no existia previamente)*/
+                campoCodigoEsValido = producto==-1;
             
             } //End else
 
