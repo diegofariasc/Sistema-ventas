@@ -238,7 +238,7 @@ public class ControllerInterfazProductos extends ControllerAbstracto {
                                                                 productoSeleccionado.getDescripcion() );
 
                 //Lanzar el dialogo
-                dialogo.iniciarInterfaz();
+                dialogo.iniciarDialogo();
 
                 //Si se acepto el registro de entrada al almacen, notificarlo al usuario 
                 if (dialogo.seAceptaLaAccion()){
