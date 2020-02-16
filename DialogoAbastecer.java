@@ -223,6 +223,9 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
             else
                 cantidadAgregar = Integer.parseInt(campoCantidadAgregar.getText());
 
+            //Lanzar excepcion si la cantidad a agregar es menor a cero
+            if (cantidadAgregar<0) throw new NumberFormatException();
+
             //Validar como correcto lo ingresado en el campoCantidadAgregar
             imagenValidezCantidad.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
 
