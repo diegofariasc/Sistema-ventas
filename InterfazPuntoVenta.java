@@ -176,6 +176,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         botonQuitarProducto.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonQuitarProducto.setBorderPainted(false);
         botonQuitarProducto.setContentAreaFilled(false);
+        botonQuitarProducto.setFocusPainted(false);
         botonQuitarProducto.setToolTipText("Quitar el producto seleccionado de la venta actual");
         panelTitulo.add(botonQuitarProducto);
 
@@ -245,13 +246,12 @@ public class InterfazPuntoVenta extends JFrame implements View {
 
         //Etiqueta informar un error al agregar el producto
         labelError = new JLabel(new ImageIcon("Iconos/Icono_incorrecto.png"));
-        labelError.setLocation(14,ALTO_VENTANA-134);
+        labelError.setLocation(LARGO_VENTANA-323,ALTO_VENTANA-113);
         labelError.setSize(300,20);
         labelError.setOpaque(true);
         labelError.setVisible(false);
         labelError.setBackground(new Color(255,166,166));
         labelError.setForeground(new Color(163,10,5));
-        labelError.setHorizontalAlignment(JLabel.LEFT);
         labelError.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
         add(labelError);
 

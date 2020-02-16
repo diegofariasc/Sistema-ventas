@@ -148,8 +148,9 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
                     while(viewPuntoVenta.modeloTabla.getRowCount()>0){
                         viewPuntoVenta.tablaProductos.setRowSelectionInterval(0, 0);
                         quitarArticuloDeColumnaSeleccionada();
-                    }
-                    
+                    } //End while
+                    viewPuntoVenta.labelError.setVisible(false);
+                    actualizaElView();
                 } //End if
 
             } //End if 
@@ -190,7 +191,7 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
                                             Dialogo.MENSAJE_INFORMATIVO);
             dialogo.iniciarDialogo();
             reiniciar();
-            actualizaElView();
+            
         } //End elseif 
 
         //Si fue el boton de consultar la lista de precios
@@ -303,9 +304,18 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
      * El metodo reinicia el estado de la ventana 
      */
     private void reiniciar(){
+
+        //Reiniciar filas (0)
         viewPuntoVenta.modeloTabla.setRowCount(0);
+
+        //Quitar cualquier mensaje de advertencia
+        viewPuntoVenta.labelError.setVisible(false);
+
+        //Reiniciar totales
         totalCompra = 0;
         totalProductos = 0;
+
+        actualizaElView();
     } //End reiniciar
 
 
