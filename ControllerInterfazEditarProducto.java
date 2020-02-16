@@ -7,6 +7,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
+/**
+ * La clase representa el controller para la clase (View) InterfazEditarProducto
+ * Implementa Controller (requerida) asi como KeyListener (para cambiar los estados
+ * de validacion de los campos mientras el usuario escribe) y FocusListener (Para dar
+ * formato a dos decimales en los campos numericos que lo ameriten)
+ * @author Diego Farias Castro
+ */
 public class ControllerInterfazEditarProducto implements Controller, KeyListener, FocusListener {
 
     private BaseDatosProductos modelProductos;
@@ -17,7 +24,6 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
     private boolean campoDepartamentoEsValido;
     private boolean camposPrecioSonValidos;
     private boolean campoDisponibilidadEsValido;
-    private boolean seAceptoElCambio;
 
     /************************************************
      * Constructor de la clase
@@ -36,20 +42,37 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
         viewEditarProducto.campoPrecioVenta.setText( String.valueOf(datosParaView.getPrecioVenta() ));
         viewEditarProducto.campoDisponibilidad.setText( String.valueOf(datosParaView.getCantidadDisponible() ));
 
+        //Inicializar la validacion de los campos en true (los datos guardados en el model son validos)
+        campoDescripcionEsValido = true;
+        campoDepartamentoEsValido = true;
+        camposPrecioSonValidos = true;
+        campoDisponibilidadEsValido = true; 
+
     }// End constructor
 
     /************************************************
      * Implementacion de la interfaz controller
      *************************************************/
+
+    /**
+     * El metodo obtiene el dato numero "indice" del model
+     * @param indice Con el numero de dato que se requiere del model
+    */
     @Override
     public Producto obtieneDatoDelModel(int indice) {
         return modelProductos.get(indice);
     } // End obtieneDatoDelModel
 
+
+    /**
+     * El metodo empaqueta el contenido de todos los campos del view en
+     * un objeto de la clase Producto
+     * @return Producto
+     */
     @Override
     public Producto obtieneDatoDelView() {
 
-        // Crear un nuevo producto
+        // Crear un objeto producto
         Producto producto = new Producto(
 
                 // Recibiendo como argumentos el contenido del view
@@ -66,6 +89,11 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
 
     } // End obtieneDatoDelView
 
+
+    /**
+     * El metodo cambia las imagenes de los estados de validez 
+     * de cada campo (View) dependiendo de si su contenido es apropiado
+     */
     @Override
     public void actualizaElView() {
 
@@ -104,18 +132,36 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
 
     } // End actualizaElView
 
+    /**
+     * El metodo lleva a cabo la accion de actualizacion del model 
+     */
     @Override
     public void solicitaActualizacionDelModel(String accion) {
         
-        //Agregar datos al model
-        if (accion.equals("Agregar")){
-            modelProductos.agregaDatosALaEstructura(modelProductos.size(),obtieneDatoDelView());
+        //Modificar datos del model
+        if (accion.equals("Editar")){
+
+            //Recuperar producto del view
+            Producto producto = obtieneDatoDelView();   
+
+            //Obtener su indice en el model
+            int indice = modelProductos.buscarIndice(producto.getCodigo());
+
+            //Realizar la actualizacion en el model
+            modelProductos.modificaDatosEnLaEstructura(indice,producto);
             modelProductos.salvaDatosDeLaEstructuraAlRepositorio();
 
         } //End if 
     
     } // End solicitaActualizacionDelModel
 
+
+    /**
+     * El metodo es llamado automaticamente cuando ocurre algun evento 
+     * tipo Action en el view. Este, responde dependiendo el control que 
+     * causo su invocacion
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */
     @Override
     public void actionPerformed(ActionEvent evento) {
 
@@ -142,10 +188,10 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
             //Si fue el boton aceptar
             else{
 
-                //Agregar al model y cerrar la ventana
-                solicitaActualizacionDelModel("Agregar");
-                Dialogo dialogo = new Dialogo("Registro de un nuevo articulo",
-                                              "Se ha agregado exitosamente el articulo",
+                //Editar en el model, notificar al usuario y cerrar la ventana
+                solicitaActualizacionDelModel("Editar");
+                Dialogo dialogo = new Dialogo("Modificacion de un articulo",
+                                              "Se ha modificado exitosamente el articulo",
                                               Dialogo.MENSAJE_INFORMATIVO);
                 dialogo.iniciarInterfaz();
                 viewEditarProducto.ocultarInterfaz();
@@ -154,9 +200,17 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
         } //End else
     } // End actionPerformed
 
+
+
     /************************************************
      * Implementacion de la interfaz FocusListener
      *************************************************/
+
+    /**
+     * El metodo es llamado automaticamente cuando el usuario se enfoca 
+     * (o activa) un control determinado
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */
     @Override
     public void focusGained(FocusEvent evento) {
 
@@ -166,7 +220,12 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
 
     } // End focusGained
 
-    //Evento no necesario pero agregado para cumplir con la interface
+
+    /**
+     * El metodo es llamado automaticamente cuando el usuario desenfoca 
+     * (o activa otro) control determinado
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */
     @Override
     public void focusLost(FocusEvent evento) {
 
@@ -190,6 +249,11 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
     * Implementacion de la interfaz KeyListener
     *************************************************/
 
+    /**
+     * El metodo es llamado automaticamente cuando el despues 
+     * de que el usuario presionara una tecla en un control determinado
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */
     @Override
     public void keyReleased(KeyEvent evento) {
 
@@ -235,9 +299,15 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
 
 
     /************************************************
-    * Metodos de la clase para validar campos
+    * Metodos para validar campos
     *************************************************/
 
+    /**
+     * El metodo valida el contenido de los campos de precio 
+     * de compra y de venta, verificando que ninguno sea negativo, que 
+     * en efecto sean numeros (no letras) y que el precio de compra 
+     * sea menor que el de venta
+     */
     private void validarCamposPrecio(){
         try{
 
@@ -260,6 +330,11 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
 
     } //End validarCamposPrecio
 
+
+    /**
+     * El metodo valida el contenido del campo de disponibilidad,
+     * verificando que no sea negativo, y que su contenido sea numerico
+     */
     private void validarCampoDisponibilidad(){
         try{
 
@@ -294,11 +369,4 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
     } //End validarCamposPrecio
 
 
-    /************************************************
-    * Metodo para indicar si se realizo una edicion
-    *************************************************/
-    public boolean seAceptoLaModificacion(){
-        return seAceptoElCambio;
-    } //End seAceptoLaModificacion
-
-} //End ControllerInterfazAgregarProducto
+} //End ControllerInterfazEditarProducto

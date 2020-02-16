@@ -36,7 +36,7 @@ public class InterfazEditarProducto extends JDialog implements View {
     JLabel              imagenValidezCampoDisponibilidad;
     JButton             botonAceptar;
     JButton             botonCancelar;
-    JTextField          campoCodigo;
+    JLabel              campoCodigo;
     JTextField          campoDescripcion;
     JTextField          campoPrecioCompra;
     JTextField          campoPrecioVenta;
@@ -89,7 +89,7 @@ public class InterfazEditarProducto extends JDialog implements View {
         panelTitulo.add(imagenVentana);
 
         //Campo para el codigo de barras
-        campoCodigo = new JTextField();
+        campoCodigo = new JLabel();
         campoCodigo.setLocation(13,113);
         campoCodigo.setSize(250,22);
         add(campoCodigo);
@@ -144,25 +144,25 @@ public class InterfazEditarProducto extends JDialog implements View {
         add(imagenValidezCampoCodigo);
 
         //Imagen para indicar si lo introducido el campo descripcion es valido o no
-        imagenValidezCampoDescripcion = new JLabel(new ImageIcon("Iconos/Icono_incorrecto.png"));
+        imagenValidezCampoDescripcion = new JLabel(new ImageIcon("Iconos/Icono_correcto.png"));
         imagenValidezCampoDescripcion.setLocation(283,158);
         imagenValidezCampoDescripcion.setSize(21,21);
         add(imagenValidezCampoDescripcion);
 
         //Imagen para indicar si lo introducido el campo de precio compra y venta es valido o no
-        imagenValidezCampoPrecios = new JLabel(new ImageIcon("Iconos/Icono_incorrecto.png"));
+        imagenValidezCampoPrecios = new JLabel(new ImageIcon("Iconos/Icono_correcto.png"));
         imagenValidezCampoPrecios.setLocation(283,203);
         imagenValidezCampoPrecios.setSize(21,21);
         add(imagenValidezCampoPrecios);
 
         //Imagen para indicar si lo introducido el campo departamento es valido o no
-        imagenValidezCampoDepartamento = new JLabel(new ImageIcon("Iconos/Icono_incorrecto.png"));
+        imagenValidezCampoDepartamento = new JLabel(new ImageIcon("Iconos/Icono_correcto.png"));
         imagenValidezCampoDepartamento.setLocation(283,248);
         imagenValidezCampoDepartamento.setSize(21,21);
         add(imagenValidezCampoDepartamento);
 
         //Imagen para indicar si lo introducido el campo disponibilidad es valido o no
-        imagenValidezCampoDisponibilidad = new JLabel(new ImageIcon("Iconos/Icono_incorrecto.png"));
+        imagenValidezCampoDisponibilidad = new JLabel(new ImageIcon("Iconos/Icono_correcto.png"));
         imagenValidezCampoDisponibilidad.setLocation(283,293);
         imagenValidezCampoDisponibilidad.setSize(21,21);
         add(imagenValidezCampoDisponibilidad);
@@ -188,7 +188,6 @@ public class InterfazEditarProducto extends JDialog implements View {
         botonAceptar.setFocusPainted(false);
         botonAceptar.setBorder(null);
         botonAceptar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        botonAceptar.setEnabled(false);
         botonAceptar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(botonAceptar);
 
@@ -217,7 +216,7 @@ public class InterfazEditarProducto extends JDialog implements View {
         add(labelInstrucciones);
 
         //Etiqueta para describir el campo codigo
-        labelDescripcionCampoCodigo = new JLabel("Codigo de barras");
+        labelDescripcionCampoCodigo = new JLabel("Codigo de barras [Bloqueado]");
         labelDescripcionCampoCodigo.setLocation(13,95);
         labelDescripcionCampoCodigo.setSize(150,20);
         labelDescripcionCampoCodigo.setForeground(Color.DARK_GRAY);
