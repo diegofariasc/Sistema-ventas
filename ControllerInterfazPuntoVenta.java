@@ -210,7 +210,7 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
                         cantidad,
                         producto.getCodigo(),
                         producto.getDescripcion(),     
-                        producto.getUnidadVentaString(),
+                        producto.getUnidadVentaStr(),
                         String.format("$%.2f",producto.getPrecioVenta()),
                         String.format("$%.2f",subtotalProducto)
                     });

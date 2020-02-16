@@ -48,7 +48,7 @@ public class InterfazEditarProducto extends JDialog implements View {
     /************************************************
      * Constructor de la clase
      *************************************************/
-    public InterfazEditarProducto(String codigoProducto){
+    public InterfazEditarProducto(){
         
         //Parámetros de la ventana
         colorEstilo = new Color(13,62,145);

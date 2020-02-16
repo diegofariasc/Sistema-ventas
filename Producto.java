@@ -35,22 +35,26 @@ public class Producto implements Serializable, Comparable<Producto> {
     public double  getPrecioCompra()        { return precioCompra; }
     public double  getPrecioVenta()         { return precioVenta; }
     public double  getCantidadDisponible()  { return cantidadDisponible; }
-    public String  getUnidadVentaString()   {
+    public String  getUnidadVentaStr()      {
         switch (unidadVenta){
             case 0:  return "Pieza";
             case 1:  return "Kilo";
             case 2:  return "Paquete";
             case 3:  return "Caja";
             case 4:  return "Litro";
-            default: return "Desconocido";
         } //End switch
+        return null;
     } // End getUnidadVentaString
 
 
     /************************************************
      * Constructores
     *************************************************/  
+
+    //Constructor prefefinido por la superclase Object
     public Producto(){}
+
+    //Constructor que acepta todos los parametros
     public Producto(int codigo, String descripcion, String departamento,
                     int unidadVenta, double precioCompra, double precioVenta,  
                     double cantidadDisponible){
@@ -61,6 +65,16 @@ public class Producto implements Serializable, Comparable<Producto> {
         this.precioCompra       = precioCompra;
         this.precioVenta        = precioVenta;
         this.cantidadDisponible = cantidadDisponible;
+    } //End constructor
+
+    //Constructor que acepta todos los parametros, pero con unidad de venta como string
+    public Producto(int codigo, String descripcion, String departamento,
+                    String unidadVenta, double precioCompra, double precioVenta,  
+                    double cantidadDisponible){
+        
+        this(codigo,descripcion,departamento,0,precioCompra,precioVenta,cantidadDisponible);
+        this.setUnidadVenta(unidadVenta);
+
     } //End constructor
 
     /************************************************
@@ -81,6 +95,16 @@ public class Producto implements Serializable, Comparable<Producto> {
     public void setUnidadVenta(int nuevaUnidadVenta) {
         unidadVenta = nuevaUnidadVenta;
     } // End setUnidadVenta
+
+    public void setUnidadVenta(String nuevaUnidadVenta)   {
+        switch (nuevaUnidadVenta){
+            case "Pieza"    :  unidadVenta = 0; break;
+            case "Kilo"     :  unidadVenta = 1; break;
+            case "Paquete"  :  unidadVenta = 2; break;
+            case "Caja"     :  unidadVenta = 3; break;
+            case "Litro"    :  unidadVenta = 4; break;
+        } //End switch
+    } // End getUnidadVentaString
 
     public void setPrecioCompra(double nuevoPrecioCompra) {
         precioCompra = nuevoPrecioCompra;

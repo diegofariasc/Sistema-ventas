@@ -22,9 +22,20 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
     /************************************************
      * Constructor de la clase
      *************************************************/
-    public ControllerInterfazEditarProducto(BaseDatosProductos model, InterfazEditarProducto view) {
+    public ControllerInterfazEditarProducto(BaseDatosProductos model, InterfazEditarProducto view ,
+                                            Producto datosParaView) {
         modelProductos = model;
         viewEditarProducto = view;
+
+        //Inicializar campos del view 
+        viewEditarProducto.campoCodigo.setText( String.valueOf(datosParaView.getCodigo() ));
+        viewEditarProducto.campoDescripcion.setText( datosParaView.getDescripcion() ) ;
+        viewEditarProducto.campoDepartamento.setText( datosParaView.getDepartamento() );
+        viewEditarProducto.campoUnidadVenta.setSelectedIndex( datosParaView.getUnidadVenta() );
+        viewEditarProducto.campoPrecioCompra.setText( String.valueOf(datosParaView.getPrecioCompra() ));
+        viewEditarProducto.campoPrecioVenta.setText( String.valueOf(datosParaView.getPrecioVenta() ));
+        viewEditarProducto.campoDisponibilidad.setText( String.valueOf(datosParaView.getCantidadDisponible() ));
+
     }// End constructor
 
     /************************************************
