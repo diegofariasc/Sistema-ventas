@@ -48,11 +48,11 @@ public class InterfazEditarProducto extends JDialog implements View {
     /************************************************
      * Constructor de la clase
      *************************************************/
-    public InterfazAgregarProducto(){
+    public InterfazEditarProducto(String codigoProducto){
         
         //Parámetros de la ventana
         colorEstilo = new Color(13,62,145);
-        setTitle("Registrar nuevo producto");
+        setTitle("Editar la informacion de un producto");
         setSize(LARGO_VENTANA,ALTO_VENTANA);
         setLocation(400,160);
         setLayout(null);
@@ -83,7 +83,7 @@ public class InterfazEditarProducto extends JDialog implements View {
         add(panelTitulo);
 
         //Imagen en la esquina superior izquierda
-        imagenVentana = new JLabel(new ImageIcon("Iconos/Icono_ventanaNuevoProducto.png"));
+        imagenVentana = new JLabel(new ImageIcon("Iconos/Icono_ventanaEditarProducto.png"));
         imagenVentana.setLocation(5,7);
         imagenVentana.setSize(40,40);
         panelTitulo.add(imagenVentana);
@@ -138,7 +138,7 @@ public class InterfazEditarProducto extends JDialog implements View {
         add(campoUnidadVenta);
 
         //Imagen para indicar si lo introducido el campo codigo es valido o no
-        imagenValidezCampoCodigo = new JLabel(new ImageIcon("Iconos/Icono_incorrecto.png"));
+        imagenValidezCampoCodigo = new JLabel(new ImageIcon("Iconos/Icono_bloqueado.png"));
         imagenValidezCampoCodigo.setLocation(283,113);
         imagenValidezCampoCodigo.setSize(21,21);
         add(imagenValidezCampoCodigo);
@@ -179,7 +179,7 @@ public class InterfazEditarProducto extends JDialog implements View {
         botonCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(botonCancelar);
 
-        //Boton para agregar el producto
+        //Boton para editar el producto
         botonAceptar = new JButton("Aceptar");
         botonAceptar.setLocation(LARGO_VENTANA-118,ALTO_VENTANA-63);
         botonAceptar.setSize(100,25);
@@ -201,7 +201,7 @@ public class InterfazEditarProducto extends JDialog implements View {
         panelTitulo.add(labelNombreAplicacion);
 
         //Etiqueta para describir la tarea de la ventana
-        labelTitulo = new JLabel("Registrar nuevo producto");
+        labelTitulo = new JLabel("Editar la informacion de un producto");
         labelTitulo.setLocation(55,27);
         labelTitulo.setSize(400,20);
         labelTitulo.setForeground(Color.WHITE);
@@ -209,7 +209,7 @@ public class InterfazEditarProducto extends JDialog implements View {
         panelTitulo.add(labelTitulo);
 
         //Etiqueta con instrucciones sobre el funcionamiento de la ventana
-        labelInstrucciones = new JLabel("Introduzca la informacion del producto");
+        labelInstrucciones = new JLabel("Introduzca la nueva informacion del producto");
         labelInstrucciones.setLocation(13,70);
         labelInstrucciones.setSize(700,20);
         labelInstrucciones.setForeground(Color.DARK_GRAY);
@@ -306,7 +306,7 @@ public class InterfazEditarProducto extends JDialog implements View {
      * El metodo designa el control del view al Controller dado de los eventos tipo Focus
      * @param theController Controlador de la interfaz
      */
-    public void setFocusListener(ControllerInterfazAgregarProducto theController) {
+    public void setFocusListener(ControllerInterfazEditarProducto theController) {
         campoCodigo.addFocusListener(theController);
         campoDescripcion.addFocusListener(theController);
         campoDepartamento.addFocusListener(theController);
@@ -319,7 +319,7 @@ public class InterfazEditarProducto extends JDialog implements View {
      * El metodo designa el control del view al Controller dado de los eventos tipo Key
      * @param theController Controlador de la interfaz
      */
-    public void setKeyListener(ControllerInterfazAgregarProducto theController) {
+    public void setKeyListener(ControllerInterfazEditarProducto theController) {
         campoCodigo.addKeyListener(theController);
         campoDescripcion.addKeyListener(theController);
         campoDepartamento.addKeyListener(theController);

@@ -116,8 +116,18 @@ public class ControllerInterfazProductos implements Controller {
 
         } //End if
 
+
+        else if (boton == viewProductos.botonEditarProducto){
+
+            if (modelProductos.hayDatos() && obtieneDatoDelView() != null){
+                mostrarInterfazEditarProducto();
+                actualizaElView();
+            } //End if 
+        } //End if
+
+
         //Si el boton eliminar fue el accionado
-        else if(boton == viewProductos.botonEliminarProducto)
+        else if (boton == viewProductos.botonEliminarProducto)
         {
             //Revisar si hay datos en el model y si hay una fila seleccionada en la tabla
             if (modelProductos.hayDatos() && obtieneDatoDelView() != null){
@@ -200,6 +210,24 @@ public class ControllerInterfazProductos implements Controller {
 
         //Lanzar la interfaz de agregar producto
         interfazAgregarProducto.iniciarInterfaz();
+
+    } //End mostrarInterfazAgregarProducto
+
+
+    private void mostrarInterfazEditarProducto(){
+
+        //Crear la interfaz y su controller
+        InterfazEditarProducto interfazEditarProducto = new InterfazEditarProducto( obtenerFi );
+        ControllerInterfazEditarProducto controllerEditarProducto = new ControllerInterfazEditarProducto(
+            modelProductos, interfazEditarProducto);
+
+        //Asociar dialogo y controller
+        interfazEditarProducto.setActionListener(controllerEditarProducto);
+        interfazEditarProducto.setFocusListener(controllerEditarProducto);
+        interfazEditarProducto.setKeyListener(controllerEditarProducto);
+
+        //Lanzar la interfaz de agregar producto
+        interfazEditarProducto.iniciarInterfaz();
 
     } //End mostrarInterfazAgregarProducto
 

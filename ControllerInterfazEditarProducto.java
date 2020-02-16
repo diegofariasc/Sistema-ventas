@@ -7,24 +7,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-public class ControllerInterfazAgregarProducto implements Controller, KeyListener, FocusListener {
+public class ControllerInterfazEditarProducto implements Controller, KeyListener, FocusListener {
 
     private BaseDatosProductos modelProductos;
-    private InterfazAgregarProducto viewAgregarProducto;
+    private InterfazEditarProducto viewEditarProducto;
 
     // Variables para almacenar si lo ingresado en cada campo es valido
-    private boolean campoCodigoEsValido;
     private boolean campoDescripcionEsValido;
     private boolean campoDepartamentoEsValido;
     private boolean camposPrecioSonValidos;
     private boolean campoDisponibilidadEsValido;
+    private boolean seAceptoElCambio;
 
     /************************************************
      * Constructor de la clase
      *************************************************/
-    public ControllerInterfazAgregarProducto(BaseDatosProductos model, InterfazAgregarProducto view) {
+    public ControllerInterfazEditarProducto(BaseDatosProductos model, InterfazEditarProducto view) {
         modelProductos = model;
-        viewAgregarProducto = view;
+        viewEditarProducto = view;
     }// End constructor
 
     /************************************************
@@ -42,12 +42,12 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
         Producto producto = new Producto(
 
                 // Recibiendo como argumentos el contenido del view
-                Integer.parseInt(viewAgregarProducto.campoCodigo.getText()),
-                viewAgregarProducto.campoDescripcion.getText(), viewAgregarProducto.campoDepartamento.getText(),
-                viewAgregarProducto.campoUnidadVenta.getSelectedIndex(),
-                Double.parseDouble(viewAgregarProducto.campoPrecioCompra.getText()),
-                Double.parseDouble(viewAgregarProducto.campoPrecioVenta.getText()),
-                Double.parseDouble(viewAgregarProducto.campoDisponibilidad.getText())
+                Integer.parseInt(viewEditarProducto.campoCodigo.getText()),
+                viewEditarProducto.campoDescripcion.getText(), viewEditarProducto.campoDepartamento.getText(),
+                viewEditarProducto.campoUnidadVenta.getSelectedIndex(),
+                Double.parseDouble(viewEditarProducto.campoPrecioCompra.getText()),
+                Double.parseDouble(viewEditarProducto.campoPrecioVenta.getText()),
+                Double.parseDouble(viewEditarProducto.campoDisponibilidad.getText())
 
         ); // End producto
 
@@ -61,39 +61,32 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
         /*Cada que un campo sea valido, cambiar el icono de validez al de correcto.
         de lo contrario, cambiarlo a incorrecto*/
 
-        //Icono referente al campo codigo
-        if (campoCodigoEsValido)
-            viewAgregarProducto.imagenValidezCampoCodigo.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
-        else
-            viewAgregarProducto.imagenValidezCampoCodigo.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
-
-
         //Icono referente al campo descripcion
         if (campoDescripcionEsValido)
-            viewAgregarProducto.imagenValidezCampoDescripcion.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
+            viewEditarProducto.imagenValidezCampoDescripcion.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
         else
-            viewAgregarProducto.imagenValidezCampoDescripcion.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
+            viewEditarProducto.imagenValidezCampoDescripcion.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
 
         //Icono referente a los campos de precio
         if (camposPrecioSonValidos)
-            viewAgregarProducto.imagenValidezCampoPrecios.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
+            viewEditarProducto.imagenValidezCampoPrecios.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
         else
-            viewAgregarProducto.imagenValidezCampoPrecios.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
+            viewEditarProducto.imagenValidezCampoPrecios.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
 
         //Icono referente al campo departamento
         if (campoDepartamentoEsValido)
-            viewAgregarProducto.imagenValidezCampoDepartamento.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
+            viewEditarProducto.imagenValidezCampoDepartamento.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
         else
-            viewAgregarProducto.imagenValidezCampoDepartamento.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
+            viewEditarProducto.imagenValidezCampoDepartamento.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
 
         //Icono referente al campo de disponibilidad
         if (campoDisponibilidadEsValido)
-            viewAgregarProducto.imagenValidezCampoDisponibilidad.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
+            viewEditarProducto.imagenValidezCampoDisponibilidad.setIcon(new ImageIcon("Iconos/Icono_correcto.png"));
         else
-            viewAgregarProducto.imagenValidezCampoDisponibilidad.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
+            viewEditarProducto.imagenValidezCampoDisponibilidad.setIcon(new ImageIcon("Iconos/Icono_incorrecto.png"));
             
         //Activar el boton aceptar dependiendo de si todos los campos son validos o no
-        viewAgregarProducto.botonAceptar.setEnabled(campoCodigoEsValido && campoDescripcionEsValido && 
+        viewEditarProducto.botonAceptar.setEnabled( campoDescripcionEsValido && 
                                                     camposPrecioSonValidos && campoDepartamentoEsValido && 
                                                     campoDisponibilidadEsValido);
 
@@ -116,7 +109,7 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
     public void actionPerformed(ActionEvent evento) {
 
         //Si el que acciono el evento es el campo de unidad de venta
-        if (evento.getSource()== viewAgregarProducto.campoUnidadVenta){
+        if (evento.getSource()== viewEditarProducto.campoUnidadVenta){
 
             /*Validar el campo de disponibilidad.
             Esto evita que si se cambia el valor del JComboBox unidadVenta despues de ingresar
@@ -132,8 +125,8 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
             JButton boton = (JButton) evento.getSource();
 
             //Si fue el boton cancelar
-            if (boton == viewAgregarProducto.botonCancelar) 
-                viewAgregarProducto.ocultarInterfaz();
+            if (boton == viewEditarProducto.botonCancelar) 
+                viewEditarProducto.ocultarInterfaz();
 
             //Si fue el boton aceptar
             else{
@@ -144,7 +137,7 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
                                               "Se ha agregado exitosamente el articulo",
                                               Dialogo.MENSAJE_INFORMATIVO);
                 dialogo.iniciarInterfaz();
-                viewAgregarProducto.ocultarInterfaz();
+                viewEditarProducto.ocultarInterfaz();
             } //End else 
 
         } //End else
@@ -170,8 +163,8 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
         JTextField campoDesenfocado = (JTextField) evento.getSource();
         
         //Ver si el campo desenfocado es el precio de compra o venta
-        if (campoDesenfocado == viewAgregarProducto.campoPrecioCompra || 
-            campoDesenfocado == viewAgregarProducto.campoPrecioVenta)
+        if (campoDesenfocado == viewEditarProducto.campoPrecioCompra || 
+            campoDesenfocado == viewEditarProducto.campoPrecioVenta)
         try{
             
             //Intentar aplicar formato a dos decimales
@@ -192,32 +185,28 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
         //Obtener el campo en que se escribio
         JTextField campoEnQueSeEscribio = (JTextField) evento.getSource();
 
-        if (campoEnQueSeEscribio == viewAgregarProducto.campoCodigo) {
-            validarCampoCodigo();
-        } // End if
-
-        else if (campoEnQueSeEscribio == viewAgregarProducto.campoDescripcion) {
+        if (campoEnQueSeEscribio == viewEditarProducto.campoDescripcion) {
 
             // Validar el campo descripcion si la descripcion no esta en blanco
-            campoDescripcionEsValido = !viewAgregarProducto.campoDescripcion.getText().equals("");
+            campoDescripcionEsValido = !viewEditarProducto.campoDescripcion.getText().equals("");
 
         } // End if
 
-        else if (campoEnQueSeEscribio == viewAgregarProducto.campoPrecioCompra ||
-                 campoEnQueSeEscribio == viewAgregarProducto.campoPrecioVenta) {
+        else if (campoEnQueSeEscribio == viewEditarProducto.campoPrecioCompra ||
+                 campoEnQueSeEscribio == viewEditarProducto.campoPrecioVenta) {
 
             validarCamposPrecio();
 
         } // End if
 
-        else if (campoEnQueSeEscribio == viewAgregarProducto.campoDepartamento) {
+        else if (campoEnQueSeEscribio == viewEditarProducto.campoDepartamento) {
 
             // Validar el campo departamento si no esta en blanco
-            campoDepartamentoEsValido = !viewAgregarProducto.campoDepartamento.getText().equals("");
+            campoDepartamentoEsValido = !viewEditarProducto.campoDepartamento.getText().equals("");
 
         } // End if
 
-        else if (campoEnQueSeEscribio == viewAgregarProducto.campoDisponibilidad) {
+        else if (campoEnQueSeEscribio == viewEditarProducto.campoDisponibilidad) {
 
             validarCampoDisponibilidad();
 
@@ -237,41 +226,6 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
     /************************************************
     * Metodos de la clase para validar campos
     *************************************************/
-    private void validarCampoCodigo(){
-        //Iniciar indicando que el contenido del campo es valido
-        campoCodigoEsValido = true;
-            
-        try{
-
-            int codigoBarras = Integer.parseInt(viewAgregarProducto.campoCodigo.getText());
-
-            //Verificar si el codigo de barras es mayor que 0
-            if (codigoBarras<0)
-                campoCodigoEsValido = false;
-
-            // Si no: 
-            else{
-                //Revisar si en la base de datos ya hay un articulo con el mismo codigo
-                for (int i=0; i<modelProductos.obtenerTamano();i++){
-                    
-                    if (obtieneDatoDelModel(i).getCodigo() == codigoBarras){
-                        
-                        //Hubo coincidencia. Indicar que el valor escrito en el campo es invalido
-                        campoCodigoEsValido = false;
-                        break;
-                    } //End if
-                } //End for
-            
-            } //End else
-
-        } //End try
-        catch(NumberFormatException excepcion){
-            
-            //En caso que el usuario no escribiera un numero en el campo
-            campoCodigoEsValido = false;
-
-        } //End catch
-    } //End validarCampoCodigo
 
     private void validarCamposPrecio(){
         try{
@@ -279,8 +233,8 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
             /*Verificar si el precio de compra y venta son ambos mayores a cero
             y el precio de venta es mayor que el de compra*/
             
-            double precioCompra = Double.parseDouble(viewAgregarProducto.campoPrecioCompra.getText());
-            double precioVenta  = Double.parseDouble(viewAgregarProducto.campoPrecioVenta.getText());
+            double precioCompra = Double.parseDouble(viewEditarProducto.campoPrecioCompra.getText());
+            double precioVenta  = Double.parseDouble(viewEditarProducto.campoPrecioVenta.getText());
 
             camposPrecioSonValidos = precioCompra > 0 && precioVenta > 0 && precioVenta > precioCompra;
 
@@ -302,18 +256,18 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
             de venta*/
             
             //Ver si la unidad de venta es fragmentable (puede incluir decimales)
-            if (viewAgregarProducto.campoUnidadVenta.getSelectedIndex()== Producto.KILO ||
-                viewAgregarProducto.campoUnidadVenta.getSelectedIndex()== Producto.LITRO ){
+            if (viewEditarProducto.campoUnidadVenta.getSelectedIndex()== Producto.KILO ||
+                viewEditarProducto.campoUnidadVenta.getSelectedIndex()== Producto.LITRO ){
 
                 //Extraer el valor de campo disponibilidad y parsearlo a double. Checar si >0
-                double disponibilidadDecimal = Double.parseDouble(viewAgregarProducto.campoDisponibilidad.getText());
+                double disponibilidadDecimal = Double.parseDouble(viewEditarProducto.campoDisponibilidad.getText());
                 campoDisponibilidadEsValido = disponibilidadDecimal>0;
             } //End if
 
             else{
 
                 //Extraer el valor de campo disponibilidad y parsearlo a int. Checar si >0
-                int disponibilidadEntera = Integer.parseInt(viewAgregarProducto.campoDisponibilidad.getText());
+                int disponibilidadEntera = Integer.parseInt(viewEditarProducto.campoDisponibilidad.getText());
                 campoDisponibilidadEsValido = disponibilidadEntera>0;
             } //End else
 
@@ -327,5 +281,13 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
         } //End catch
 
     } //End validarCamposPrecio
+
+
+    /************************************************
+    * Metodo para indicar si se realizo una edicion
+    *************************************************/
+    public boolean seAceptoLaModificacion(){
+        return seAceptoElCambio;
+    } //End seAceptoLaModificacion
 
 } //End ControllerInterfazAgregarProducto
