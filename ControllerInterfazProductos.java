@@ -105,7 +105,10 @@ public class ControllerInterfazProductos implements Controller {
                     String.format("$%.2f",producto.getPrecioCompra()),
                     String.format("$%.2f",producto.getPrecioVenta()),
                     String.format("%.3f",producto.getCantidadDisponible()),
+                    String.format("%.2f",modelProductos.procesa(i))+"%"
                 }); //End addRow
+
+                
 
         } //End for
 

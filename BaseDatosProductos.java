@@ -92,7 +92,13 @@ public class BaseDatosProductos extends ArrayList<Producto> implements Model {
 
     @Override
     public double procesa(int indice) {
-        return 0;
+
+        double   ganancia;
+        Producto producto = get(indice); 
+
+        ganancia = ((producto.getPrecioVenta() / producto.getPrecioCompra()) -1 ) * 100;
+        return ganancia;
+
     } //End procesa
 
     @Override

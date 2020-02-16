@@ -306,7 +306,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         //Tabla de datos 
         tablaProductos = new JTable(modeloTabla);
         tablaProductos.getColumnModel().getColumn(0).setPreferredWidth((LARGO_VENTANA-60)/8);
-        tablaProductos.getColumnModel().getColumn(1).setPreferredWidth((LARGO_VENTANA-60)/6);
+        tablaProductos.getColumnModel().getColumn(1).setPreferredWidth((LARGO_VENTANA-60)/7);
         tablaProductos.getColumnModel().getColumn(2).setPreferredWidth((LARGO_VENTANA-60)/3);
         tablaProductos.getColumnModel().getColumn(3).setPreferredWidth((LARGO_VENTANA-60)/6);
         tablaProductos.getColumnModel().getColumn(4).setPreferredWidth((LARGO_VENTANA-60)/6);
@@ -362,12 +362,5 @@ public class InterfazPuntoVenta extends JFrame implements View {
     public void iniciarInterfaz(){
         setVisible(true);
     } //End iniciar interfaz
-
-    /**
-     * El metodo oculta la interfaz
-     */
-    public void ocultarInterfaz(){
-        setVisible(false);
-    } //End ocultarInterfaz    
 
 } //End class

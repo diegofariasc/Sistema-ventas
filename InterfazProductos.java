@@ -48,6 +48,7 @@ public class InterfazProductos extends JDialog implements View {
     TableColumn         columnaDepartamento;
     TableColumn         columnaPrecioCompra;
     TableColumn         columnaPrecioVenta;
+    TableColumn         columnaGanancia;
     TableColumn         columnaDisponibilidad;
     TableColumn         columnaUnidadVenta;
     JScrollPane         panelConScroll;
@@ -145,6 +146,7 @@ public class InterfazProductos extends JDialog implements View {
         botonOrdenarProductos.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonOrdenarProductos.setBorderPainted(false);
         botonOrdenarProductos.setContentAreaFilled(false);
+        botonOrdenarProductos.setFocusPainted(false);
         botonOrdenarProductos.setToolTipText("Registrar un nuevo producto");
         botonOrdenarProductos.setToolTipText("Ordenar los productos de manera ascendente segun su descripcion");
         panelTitulo.add(botonOrdenarProductos);
@@ -284,6 +286,7 @@ public class InterfazProductos extends JDialog implements View {
         columnaPrecioCompra = new TableColumn();
         columnaPrecioVenta = new TableColumn();
         columnaDisponibilidad = new TableColumn();
+        columnaGanancia = new TableColumn();
 
         //Modelo para la tabla
         modeloTabla = new DefaultTableModel();
@@ -294,6 +297,7 @@ public class InterfazProductos extends JDialog implements View {
         modeloTabla.addColumn(columnaPrecioCompra);
         modeloTabla.addColumn(columnaPrecioVenta);
         modeloTabla.addColumn(columnaDisponibilidad);
+        modeloTabla.addColumn(columnaGanancia);
 
         //Tabla de datos 
         tablaProductos = new JTable(modeloTabla);
@@ -304,6 +308,7 @@ public class InterfazProductos extends JDialog implements View {
         tablaProductos.getColumnModel().getColumn(4).setPreferredWidth((LARGO_VENTANA-60)/8);
         tablaProductos.getColumnModel().getColumn(5).setPreferredWidth((LARGO_VENTANA-60)/8);
         tablaProductos.getColumnModel().getColumn(6).setPreferredWidth((LARGO_VENTANA-60)/8);
+        tablaProductos.getColumnModel().getColumn(7).setPreferredWidth((LARGO_VENTANA-60)/8);
         tablaProductos.getColumnModel().getColumn(0).setHeaderValue("Codigo");
         tablaProductos.getColumnModel().getColumn(1).setHeaderValue("Descripcion");
         tablaProductos.getColumnModel().getColumn(2).setHeaderValue("Departamento");
@@ -311,6 +316,7 @@ public class InterfazProductos extends JDialog implements View {
         tablaProductos.getColumnModel().getColumn(4).setHeaderValue("Precio compra");
         tablaProductos.getColumnModel().getColumn(5).setHeaderValue("Precio venta");
         tablaProductos.getColumnModel().getColumn(6).setHeaderValue("Disponible");
+        tablaProductos.getColumnModel().getColumn(7).setHeaderValue("Ganancia");
         tablaProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         //Recuadro con opcion de scrolling para la tabla

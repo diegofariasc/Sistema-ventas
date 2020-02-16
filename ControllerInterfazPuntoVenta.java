@@ -131,7 +131,6 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
         } //End elseif 
 
         else if (boton == viewPuntoVenta.botonConsultarListaPrecios){
-            viewPuntoVenta.ocultarInterfaz();
             mostrarListaPrecios();
             viewPuntoVenta.iniciarInterfaz();
         } //End if 
