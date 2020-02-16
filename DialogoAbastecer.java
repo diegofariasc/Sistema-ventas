@@ -12,9 +12,18 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 
+/**
+ * La clase representa un cuadro de dialogo siguiendo 
+ * la misma arquitectura del que se muestra en el ejemplo distribuido 
+ * en el portafolio del curso con la diferencia de que este dialogo
+ * solicita un valor numerico con la cantidad de producto recibida
+ * en el abastecimiento
+ * @author Diego Farias Castro
+ */
 @SuppressWarnings("serial")
 public class DialogoAbastecer extends JDialog implements ActionListener, KeyListener {
     
+    //Constantes para construir la ventana
     private static final int LARGO_VENTANA = 400;
     private static final int ALTO_VENTANA  = 250;
 
@@ -30,9 +39,9 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
     JButton     botonCancelar;
     Color       colorEstilo;
 
-    boolean     seAceptaLaAccion;
-    double      cantidadAgregar;
-    String      nombreProducto;
+    boolean     seAceptaLaAccion;       // Guardar si el usuario acepta
+    double      cantidadAgregar;        // Valor dado en el dialogo
+    String      nombreProducto;         // Datos a mostrar
     int         unidadVenta;
 
     /************************************************
@@ -90,7 +99,7 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
         botonCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(botonCancelar);
 
-        //Boton para agregar el producto
+        //Boton para aceptar 
         botonAceptar = new JButton("Aceptar");
         botonAceptar.setLocation(LARGO_VENTANA-118,ALTO_VENTANA-63);
         botonAceptar.setSize(100,25);
@@ -161,43 +170,49 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
     /**
      * El metodo lanza la interfaz tras su construccion
      */
-    public void iniciarInterfaz(){
+    public void iniciarDialogo(){
         setVisible(true);
     } //End iniciar interfaz
 
     /**
      * El metodo oculta la interfaz
      */
-    public void ocultarInterfaz(){
+    public void ocultarDialogo(){
         setVisible(false);
     } //End ocultarInterfaz    
 
-    public void actionPerformed(ActionEvent evento)
-    {
-        JButton botonAccionado;
+    public void actionPerformed(ActionEvent evento){
 
+        //Obtener el boton que causo el evento
+        JButton botonAccionado;
         botonAccionado = (JButton) evento.getSource();
 
+        //En caso que sea el boton aceptar
         if(botonAccionado == botonAceptar)
         {
-            setVisible(false);
+            ocultarDialogo();
             seAceptaLaAccion = true;
         }//End if
 
+        //En caso que sea el boton cancelar
         if(botonAccionado == botonCancelar)
         {
-            setVisible(false);
+            ocultarDialogo();
             seAceptaLaAccion = false;
         }//End if
 
     }//end actionPerformed
 
-    @Override
-    public void keyTyped(KeyEvent e) {} 
 
-    @Override
-    public void keyPressed(KeyEvent e) {}
-
+    /************************************************
+     * Implementacion de la interfaz KeyListener
+     *************************************************/  
+    
+   /**
+     * El metodo es llamado automaticamente cuando el despues 
+     * de que el usuario presionara una tecla en un control determinado
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */     
     @Override
     public void keyReleased(KeyEvent e) {
         try {
@@ -228,10 +243,29 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
 
     } //End keyReleased
 
+    //Eventos no necesarios pero agregados para cumplir con la interfaz
+    @Override
+    public void keyTyped(KeyEvent e) {} 
+
+    @Override
+    public void keyPressed(KeyEvent e) {}
+
+
+    /************************************************
+     * Metodos
+     *************************************************/
+
+     /**
+      * El metodo devuelve si el usuario acepto o no el abastecimiento
+      */
     public boolean seAceptaLaAccion(){
         return seAceptaLaAccion;
     } //End seAceptaLaAccion
 
+    /**
+     * El metodo devuelve el valor que el usuario indico en el campo de 
+     * cantidad a agregar
+     */
     public double getCantidadAgregar(){
         return cantidadAgregar;
     } //End getCantidadAgregar

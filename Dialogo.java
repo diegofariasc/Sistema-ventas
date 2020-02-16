@@ -9,9 +9,16 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 
+/**
+ * La clase representa un cuadro de dialogo siguiendo 
+ * la misma arquitectura del que se muestra en el ejemplo distribuido 
+ * en el portafolio del curso
+ * @author Diego Farias Castro
+ */
 @SuppressWarnings("serial")
 public class Dialogo extends JDialog implements ActionListener {
     
+    //Constantes para construir la ventana
     private static final int LARGO_VENTANA = 400;
     private static final int ALTO_VENTANA  = 180;
 
@@ -28,6 +35,7 @@ public class Dialogo extends JDialog implements ActionListener {
     int     tipoMensaje;
     boolean seAceptaLaAccion;
 
+    //Para que un controller indique el tipo de dialogo a construir
     public static int MENSAJE_ADVERTENCIA = 0;
     public static int MENSAJE_INFORMATIVO = 1;
 
@@ -94,7 +102,7 @@ public class Dialogo extends JDialog implements ActionListener {
         botonCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(botonCancelar);
 
-        //Boton para agregar el producto
+        //Boton para aceptar 
         botonAceptar = new JButton("Aceptar");
         botonAceptar.setLocation(LARGO_VENTANA-118,ALTO_VENTANA-63);
         botonAceptar.setSize(100,25);
@@ -106,7 +114,7 @@ public class Dialogo extends JDialog implements ActionListener {
         botonAceptar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(botonAceptar);
 
-        //Etiqueta con el nombre de la aplicacion
+        //Etiqueta con los datos del dialogo
         labelNombreAplicacion = new JLabel(tipoMensaje == MENSAJE_ADVERTENCIA ? "Espera de confirmacion" : 
                                                                                 "Informacion");
         labelNombreAplicacion.setLocation(55,5);
@@ -138,42 +146,58 @@ public class Dialogo extends JDialog implements ActionListener {
 
 
      /************************************************
-     * Metodos de la clase
+     * Metodos
      *************************************************/
-    /**
-     * El metodo lanza la interfaz tras su construccion
+    
+     /**
+     * El metodo lanza el dialogo tras su construccion
      */
     public void iniciarDialogo(){
         setVisible(true);
     } //End iniciar interfaz
 
+
     /**
-     * El metodo oculta la interfaz
+     * El metodo oculta la el dialogo
      */
-    public void ocultarInterfaz(){
+    public void ocultarDialogo(){
         setVisible(false);
-    } //End ocultarInterfaz    
+    } //End ocultarDialogo  
     
+    
+    /**
+     * El metodo devuelve si el usuario acepto la accion
+     * propuesta en el cuadro de dialogo
+     * @return seAceptaLaAccion
+     */
     public boolean seAceptaLaAccion(){
         return seAceptaLaAccion;
     } //End seAceptaLaAccion
 
     
-    public void actionPerformed(ActionEvent evento)
-    {
-        JButton botonAccionado;
+    /**
+     * El metodo es llamado automaticamente cuando ocurre algun evento 
+     * tipo Action. Este, responde dependiendo el control que 
+     * causo su invocacion
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */   
+    public void actionPerformed(ActionEvent evento) {
 
+        //Obtener el causante del evento
+        JButton botonAccionado;
         botonAccionado = (JButton) evento.getSource();
 
+        //Si es el boton de aceptar
         if(botonAccionado == botonAceptar)
         {
-            setVisible(false);
+            ocultarDialogo();
             seAceptaLaAccion = true;
         }//End if
 
+        //Si es el boton de cancelar
         if(botonAccionado == botonCancelar)
         {
-            setVisible(false);
+            ocultarDialogo();
             seAceptaLaAccion = false;
         }//End if
 
