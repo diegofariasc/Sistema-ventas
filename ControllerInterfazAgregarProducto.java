@@ -7,9 +7,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-public class ControllerInterfazAgregarProducto implements Controller, KeyListener, FocusListener {
+/**
+ * La clase representa el controller para la clase (View) InterfazAgregarProducto
+ * Implementa Controller (requerida) asi como KeyListener (para cambiar los estados
+ * de validacion de los campos mientras el usuario escribe) y FocusListener (Para dar
+ * formato a dos decimales en los campos numericos que lo ameriten)
+ * @author Diego Farias Castro
+ */
+public class ControllerInterfazAgregarProducto extends ControllerAbstracto implements KeyListener, FocusListener {
 
-    private BaseDatosProductos modelProductos;
     private InterfazAgregarProducto viewAgregarProducto;
 
     // Variables para almacenar si lo ingresado en cada campo es valido
@@ -19,6 +25,7 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
     private boolean camposPrecioSonValidos;
     private boolean campoDisponibilidadEsValido;
 
+
     /************************************************
      * Constructor de la clase
      *************************************************/
@@ -27,14 +34,16 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
         viewAgregarProducto = view;
     }// End constructor
 
+
     /************************************************
      * Implementacion de la interfaz controller
      *************************************************/
-    @Override
-    public Producto obtieneDatoDelModel(int indice) {
-        return modelProductos.get(indice);
-    } // End obtieneDatoDelModel
 
+    /**
+     * El metodo empaqueta el contenido del view en un objeto
+     * de la clase producto
+     * @return Producto
+     */
     @Override
     public Producto obtieneDatoDelView() {
 
@@ -55,6 +64,11 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
 
     } // End obtieneDatoDelView
 
+
+    /**
+     * El metodo cambia las imagenes de los estados de validez 
+     * de cada campo (View) dependiendo de si su contenido es apropiado
+     */
     @Override
     public void actualizaElView() {
 
@@ -100,6 +114,11 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
 
     } // End actualizaElView
 
+
+    /**
+     * El metodo solicita actualizar (agregar) un dato al model
+     * @param accion A realizar en el model
+     */
     @Override
     public void solicitaActualizacionDelModel(String accion) {
         
@@ -112,6 +131,13 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
     
     } // End solicitaActualizacionDelModel
 
+
+    /**
+     * El metodo es llamado automaticamente cuando ocurre algun evento 
+     * tipo Action en el view. Este, responde dependiendo el control que 
+     * causo su invocacion
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */
     @Override
     public void actionPerformed(ActionEvent evento) {
 
@@ -143,12 +169,13 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
                 Dialogo dialogo = new Dialogo("Registro de un nuevo articulo",
                                               "Se ha agregado exitosamente el articulo",
                                               Dialogo.MENSAJE_INFORMATIVO);
-                dialogo.iniciarInterfaz();
+                dialogo.iniciarDialogo();
                 viewAgregarProducto.ocultarInterfaz();
             } //End else 
 
         } //End else
     } // End actionPerformed
+
 
     /************************************************
      * Implementacion de la interfaz FocusListener
@@ -186,16 +213,23 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
     * Implementacion de la interfaz KeyListener
     *************************************************/
 
+    /**
+     * El metodo es llamado automaticamente cuando el despues 
+     * de que el usuario presionara una tecla en un control determinado
+     * @param evento Con los datos del evento del cual deriva su invocacion
+     */
     @Override
     public void keyReleased(KeyEvent evento) {
 
         //Obtener el campo en que se escribio
         JTextField campoEnQueSeEscribio = (JTextField) evento.getSource();
 
+        //Fue el campo codigo
         if (campoEnQueSeEscribio == viewAgregarProducto.campoCodigo) {
             validarCampoCodigo();
         } // End if
 
+        //Fue el campo descripcion
         else if (campoEnQueSeEscribio == viewAgregarProducto.campoDescripcion) {
 
             // Validar el campo descripcion si la descripcion no esta en blanco
@@ -203,6 +237,7 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
 
         } // End if
 
+        //Fue alguno de los campos de precios
         else if (campoEnQueSeEscribio == viewAgregarProducto.campoPrecioCompra ||
                  campoEnQueSeEscribio == viewAgregarProducto.campoPrecioVenta) {
 
@@ -210,6 +245,7 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
 
         } // End if
 
+        //Fue el campo de departamento
         else if (campoEnQueSeEscribio == viewAgregarProducto.campoDepartamento) {
 
             // Validar el campo departamento si no esta en blanco
@@ -217,6 +253,7 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
 
         } // End if
 
+        //Fue el campo de disponibilidad 
         else if (campoEnQueSeEscribio == viewAgregarProducto.campoDisponibilidad) {
 
             validarCampoDisponibilidad();
@@ -237,6 +274,12 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
     /************************************************
     * Metodos de la clase para validar campos
     *************************************************/
+
+   /**
+     * El metodo valida el contenido de los campos de codigo de barras  
+     * de compra y de venta, verificando que no sea negativo y que 
+     * en efecto sea numerico
+     */
     private void validarCampoCodigo(){
         //Iniciar indicando que el contenido del campo es valido
         campoCodigoEsValido = true;
@@ -251,16 +294,12 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
 
             // Si no: 
             else{
+                
                 //Revisar si en la base de datos ya hay un articulo con el mismo codigo
-                for (int i=0; i<modelProductos.obtenerTamano();i++){
+                int indiceProducto = buscarIndiceEnModel(codigoBarras);
                     
-                    if (obtieneDatoDelModel(i).getCodigo() == codigoBarras){
-                        
-                        //Hubo coincidencia. Indicar que el valor escrito en el campo es invalido
-                        campoCodigoEsValido = false;
-                        break;
-                    } //End if
-                } //End for
+                //Indicar que lo escrito en el campo de codigo es valido solo si el indice del producto es -1
+                campoCodigoEsValido = indiceProducto==-1;
             
             } //End else
 
@@ -273,6 +312,13 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
         } //End catch
     } //End validarCampoCodigo
 
+
+    /**
+     * El metodo valida el contenido de los campos de precio 
+     * de compra y de venta, verificando que ninguno sea negativo, que 
+     * en efecto sean numeros (no letras) y que el precio de compra 
+     * sea menor que el de venta
+     */
     private void validarCamposPrecio(){
         try{
 
@@ -295,6 +341,11 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
 
     } //End validarCamposPrecio
 
+
+    /**
+     * El metodo valida el contenido del campo de disponibilidad,
+     * verificando que no sea negativo, y que su contenido sea numerico
+     */
     private void validarCampoDisponibilidad(){
         try{
 
@@ -327,5 +378,7 @@ public class ControllerInterfazAgregarProducto implements Controller, KeyListene
         } //End catch
 
     } //End validarCamposPrecio
+
+   
 
 } //End ControllerInterfazAgregarProducto

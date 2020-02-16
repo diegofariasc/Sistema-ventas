@@ -143,7 +143,7 @@ public class Dialogo extends JDialog implements ActionListener {
     /**
      * El metodo lanza la interfaz tras su construccion
      */
-    public void iniciarInterfaz(){
+    public void iniciarDialogo(){
         setVisible(true);
     } //End iniciar interfaz
 

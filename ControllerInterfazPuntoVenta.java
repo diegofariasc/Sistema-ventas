@@ -6,11 +6,15 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-public class ControllerInterfazPuntoVenta implements Controller, KeyListener, FocusListener {
+/**
+ * La clase representa el controller para la clase (View) InterfazPuntoVenta
+ * @author Diego Farias Castro
+ */
+public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements KeyListener, FocusListener {
 
-    private BaseDatosProductos modelProductos;
     private InterfazPuntoVenta viewPuntoVenta;
 
+    //Variables para almacenar el total de la compra y de productos
     private double totalCompra;
     private double totalProductos;
 
@@ -22,11 +26,26 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
         viewPuntoVenta = view;
     }// End constructor
 
+
+    /************************************************
+    * Implementacion de la interfaz controller
+    *************************************************/    
+
+    /**
+     * El metodo obtiene el dato numero "indice" del model
+     * @param indice Con el numero de dato que se requiere del model
+     */
 	@Override
 	public Producto obtieneDatoDelModel(int indice) {
 		return modelProductos.get(indice);
 	} //End obtieneDatoDelModel
 
+
+   /**
+     * El metodo lee el contenido de los campos de agregar y 
+     * de cantidad y los empaqueta en un arreglo de Strings
+     * @return String[]
+     */
 	@Override
 	public String[] obtieneDatoDelView() {
 
@@ -35,6 +54,11 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
                              viewPuntoVenta.campoCantidadAgregar.getText() };
 	} //End obtieneDatoDelView
 
+
+    /**
+     * El metodo actualiza lo que se muestra en el View en los 
+     * campos de total de compra y cantidad de articulos 
+     */
 	@Override
 	public void actualizaElView() {
         
@@ -49,24 +73,37 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
 
 	} //End actualizaElView
 
+    /**
+     * El metodo recibe una accion en formato String que se compone:
+     * "Accion indice cantidad"
+     * (accion a realizar: incrementar o decrementar disponibilidad, 
+     * indice del objeto en que se realizara el cambio y cantidad a agregar
+     * o disminuir)
+     * El cambio solicitado se ejecuta en el model
+     * @param accion Con la accion que se realizara
+     */
 	@Override
 	public void solicitaActualizacionDelModel(String accion) {
 
+        //Desempaquetar el contenido de la accion
         String[] acciones = accion.split(" ");  
         int      indice   = Integer.parseInt(acciones[1]);
         double   cantidad = Double.parseDouble(acciones[2]);
         Producto producto = obtieneDatoDelModel(indice);
 
+        //Si hay que decrementar la disponibilidad
 		if (accion.startsWith("DecrementarDisponibilidad")){
             producto.setCantidadDisponible(producto.getCantidadDisponible()-cantidad);
         } //End if
         
+        //Si hay que incrementar la disponibilidad
         else if (accion.startsWith("IncrementarDisponibilidad")){
 
             producto.setCantidadDisponible(producto.getCantidadDisponible()+cantidad);
 
         } //End elseif
 
+        //Actualizar el model
         modelProductos.salvaDatosDeLaEstructuraAlRepositorio();
 
 	} //End solicitaActualizacionDelModel
@@ -85,7 +122,7 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
                 Dialogo dialogo = new Dialogo(  "Abortar una venta", 
                                                 "¿Confirma que desea abortar la venta actual?",
                                                 Dialogo.MENSAJE_ADVERTENCIA);
-                dialogo.iniciarInterfaz();
+                dialogo.iniciarDialogo();
 
 
 
@@ -108,7 +145,7 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
                 Dialogo dialogo = new Dialogo(  "Quitar un producto de la venta", 
                                                 "¿Confirma que desea quitar el producto seleccionado?",
                                                 Dialogo.MENSAJE_ADVERTENCIA);
-                dialogo.iniciarInterfaz();
+                dialogo.iniciarDialogo();
 
                 
                 if (dialogo.seAceptaLaAccion()){
@@ -126,7 +163,7 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
             Dialogo dialogo = new Dialogo(  "Venta finalizada", 
                                             "Se ha concluido exitosamente la venta actual",
                                             Dialogo.MENSAJE_INFORMATIVO);
-            dialogo.iniciarInterfaz();
+            dialogo.iniciarDialogo();
             reiniciarView();
         } //End elseif 
 
@@ -253,9 +290,7 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
     } //End agregarProductoVenta
 
     @Override
-    public void focusGained(FocusEvent e) {
-
-    }
+    public void focusGained(FocusEvent e) {}
 
     @Override
     public void focusLost(FocusEvent evento) {
@@ -315,7 +350,7 @@ public class ControllerInterfazPuntoVenta implements Controller, KeyListener, Fo
         int      codigo    = (int)    viewPuntoVenta.modeloTabla.getValueAt(seleccion, 1);
         
         // Llamar a la actualizacion del model
-        solicitaActualizacionDelModel("IncrementarDisponibilidad "+ modelProductos.buscarIndice(codigo)+" "+cantidad);
+        solicitaActualizacionDelModel("IncrementarDisponibilidad "+ buscarIndiceEnModel(codigo)+" "+cantidad);
                 
         // Actualizacion de los totales**
 

@@ -6,9 +6,8 @@ import javax.swing.JButton;
  * La clase representa el controller para la clase (View) InterfazProductos
  * @author Diego Farias Castro
  */
-public class ControllerInterfazProductos implements Controller {
+public class ControllerInterfazProductos extends ControllerAbstracto {
 
-    private BaseDatosProductos      modelProductos;
     private InterfazProductos       viewProductos;
 
     private String filtro;  
@@ -127,7 +126,7 @@ public class ControllerInterfazProductos implements Controller {
         if (accion.startsWith("Eliminar")) {
 
             //Buscar el indice del producto basado en su codigo y proceder a eliminar
-            int indice = modelProductos.buscarIndice(obtieneDatoDelView().getCodigo());
+            int indice = buscarIndiceEnModel(obtieneDatoDelView().getCodigo());
             modelProductos.eliminaDatosDeLaEstructura( indice );
         } //End if
 
@@ -151,7 +150,7 @@ public class ControllerInterfazProductos implements Controller {
             seleccionView.setCantidadDisponible(seleccionView.getCantidadDisponible() + cantidad );
 
             //Modificar el model
-            int indice = modelProductos.buscarIndice(seleccionView.getCodigo());     //Obtener el indice
+            int indice = buscarIndiceEnModel(seleccionView.getCodigo());     //Obtener el indice
             modelProductos.modificaDatosEnLaEstructura(indice,seleccionView);        //Modificar model
 
         } //End if
@@ -216,7 +215,7 @@ public class ControllerInterfazProductos implements Controller {
                 Dialogo dialogo = new Dialogo(  "Eliminacion de un articulo",
                                                 "¿Confirma que desea eliminar el articulo seleccionado?",
                                                 Dialogo.MENSAJE_ADVERTENCIA);
-                dialogo.iniciarInterfaz();
+                dialogo.iniciarDialogo();
 
                 if (dialogo.seAceptaLaAccion()){
                     //Proceder a la eliminacion
@@ -249,7 +248,7 @@ public class ControllerInterfazProductos implements Controller {
                     Dialogo informativo = new Dialogo(  "Registrar abastecimiento",
                                                     "Se ha registrado exitosamente la entrada del producto",
                                                     Dialogo.MENSAJE_INFORMATIVO);
-                    informativo.iniciarInterfaz();
+                    informativo.iniciarDialogo();
 
                     //Actualizar el model y el view
                     solicitaActualizacionDelModel("CambiarCantidad "+ dialogo.getCantidadAgregar() );

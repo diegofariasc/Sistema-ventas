@@ -14,9 +14,8 @@ import javax.swing.JTextField;
  * formato a dos decimales en los campos numericos que lo ameriten)
  * @author Diego Farias Castro
  */
-public class ControllerInterfazEditarProducto implements Controller, KeyListener, FocusListener {
+public class ControllerInterfazEditarProducto extends ControllerAbstracto implements KeyListener, FocusListener {
 
-    private BaseDatosProductos modelProductos;
     private InterfazEditarProducto viewEditarProducto;
 
     // Variables para almacenar si lo ingresado en cada campo es valido
@@ -53,16 +52,6 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
     /************************************************
      * Implementacion de la interfaz controller
      *************************************************/
-
-    /**
-     * El metodo obtiene el dato numero "indice" del model
-     * @param indice Con el numero de dato que se requiere del model
-    */
-    @Override
-    public Producto obtieneDatoDelModel(int indice) {
-        return modelProductos.get(indice);
-    } // End obtieneDatoDelModel
-
 
     /**
      * El metodo empaqueta el contenido de todos los campos del view en
@@ -145,7 +134,7 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
             Producto producto = obtieneDatoDelView();   
 
             //Obtener su indice en el model
-            int indice = modelProductos.buscarIndice(producto.getCodigo());
+            int indice = buscarIndiceEnModel(producto.getCodigo());
 
             //Realizar la actualizacion en el model
             modelProductos.modificaDatosEnLaEstructura(indice,producto);
@@ -193,7 +182,7 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
                 Dialogo dialogo = new Dialogo("Modificacion de un articulo",
                                               "Se ha modificado exitosamente el articulo",
                                               Dialogo.MENSAJE_INFORMATIVO);
-                dialogo.iniciarInterfaz();
+                dialogo.iniciarDialogo();
                 viewEditarProducto.ocultarInterfaz();
             } //End else 
 
@@ -367,6 +356,5 @@ public class ControllerInterfazEditarProducto implements Controller, KeyListener
         } //End catch
 
     } //End validarCamposPrecio
-
 
 } //End ControllerInterfazEditarProducto

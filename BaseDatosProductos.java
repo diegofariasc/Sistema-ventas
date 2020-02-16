@@ -15,9 +15,14 @@ import java.util.Collections;
  @SuppressWarnings("serial")
 public class BaseDatosProductos extends ArrayList<Producto> implements Model {
 
+
+    /************************************************
+    * Constructor
+    *************************************************/
     public BaseDatosProductos(){
         cargaDatosDelRepositorioALaEstructura();
     } //End BaseDatosProductos
+
 
     /************************************************
     * Implementacion de la interfaz Model
@@ -106,6 +111,7 @@ public class BaseDatosProductos extends ArrayList<Producto> implements Model {
         set(indice,(Producto)dato);
     } //End modificaDatosEnLaEstructura
 
+
     /**
      * El metodo elimina el elemento en la posicion dada
      * de la estructura
@@ -116,6 +122,7 @@ public class BaseDatosProductos extends ArrayList<Producto> implements Model {
         remove(indice);
     } //End eliminaDatosDeLaEstructura
 
+
     /**
      * El metodo ordena la estructura usando el mecanismo
      * implementado en la clase Collections
@@ -124,6 +131,7 @@ public class BaseDatosProductos extends ArrayList<Producto> implements Model {
     public void ordenaLaEstructura() {
         Collections.sort(this);
     } //End ordenaLaEstructura
+
 
     /**
      * El metodo calcula la ganancia del producto 
@@ -143,6 +151,7 @@ public class BaseDatosProductos extends ArrayList<Producto> implements Model {
 
     } //End procesa
 
+
     /**
      * El metodo indica si el model se encuentra vacio
      * @return Si la estructura no esta vacia
@@ -153,6 +162,10 @@ public class BaseDatosProductos extends ArrayList<Producto> implements Model {
     } //End hayDatos
 
 
+
+    /************************************************
+    * Metodos 
+    *************************************************/
     /**
      * El metodo recupera el tamano de la estructura
      * @return Tamano de la estructura
@@ -160,59 +173,5 @@ public class BaseDatosProductos extends ArrayList<Producto> implements Model {
     public int obtenerTamano(){
         return size();
     } //End obtenerTamano
-
-
-    /**
-     * El metodo realiza una busqueda lineal para localizar
-     * el codigo de barras dado. 
-     * Si se encuentra, devuelve un apuntador al producto,
-     * de lo contrario se devuelve null
-     * @param codigo Codigo de barras a buscar
-     * @return Producto localizado
-     */
-    public Producto buscarProducto(int codigo){
-        
-        //Busqueda lineal
-        for (int i=0; i<obtenerTamano();i++){
-
-            //Obtener objeto en la posicion i
-            Producto producto = get(i);
-
-            //Comparar codigo
-            if (producto.getCodigo() == codigo)
-                return producto;
-        } //End for
-    
-        //Si no se encontro el producto
-        return null;
-
-    } //End buscarCodigoBarras
-
-    
-    /**
-     * El metodo realiza una busqueda lineal para localizar
-     * el codigo de barras dado. 
-     * Si se encuentra, devuelve el indice del producto en la 
-     * estructura. De lo contrario, se devuelve -1 
-     * @param codigo Codigo de barras a buscar
-     * @return Indice
-     */
-    public int buscarIndice(int codigo){
-        
-        //Busqueda lineal
-        for (int i=0; i<obtenerTamano();i++){
-
-            //Obtener objeto en la posicion i
-            Producto producto = get(i);
-
-            //Comparar codigo
-            if (producto.getCodigo() == codigo)
-                return i;
-        } //End for
-    
-        //Si no se encontro el producto
-        return -1;
-
-    } //End buscarIndice
 
 } //End class
