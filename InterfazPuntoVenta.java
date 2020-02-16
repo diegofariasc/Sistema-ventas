@@ -39,6 +39,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
     JLabel              labelCantidadArticulos;
     JLabel              labelSignoMultiplicacion;
     JLabel              labelMontoRecibido;
+    JLabel              labelCambio;
     JLabel              labelError;
     JButton             botonAgregar;
     JButton             botonFinalizar;
@@ -227,6 +228,15 @@ public class InterfazPuntoVenta extends JFrame implements View {
         labelMontoRecibido.setForeground(new Color(51,51,51));
         labelMontoRecibido.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         add(labelMontoRecibido);
+
+       //Etiqueta para indicar el cambio a dar al cliente
+       labelCambio = new JLabel("Cambio: $");
+       labelCambio.setLocation(420,485);
+       labelCambio.setVisible(false);
+       labelCambio.setSize(400,20);
+       labelCambio.setForeground(new Color(51,51,51));
+       labelCambio.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+       add(labelCambio);
 
         //Etiqueta para indicar la cantidad de articulos en la venta actual
         labelCantidadArticulos = new JLabel("Cantidad de artículos: 0.00");

@@ -72,6 +72,7 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
         viewPuntoVenta.campoCantidadAgregar.setText("1");
         viewPuntoVenta.campoRecibido.setText("0.00");
         viewPuntoVenta.botonFinalizar.setEnabled(false);
+        viewPuntoVenta.labelCambio.setVisible(false);
         viewPuntoVenta.campoAgregar.requestFocus();
 
 	} //End actualizaElView
@@ -425,19 +426,30 @@ public class ControllerInterfazPuntoVenta extends ControllerAbstracto implements
             double recibido = Double.parseDouble(viewPuntoVenta.campoRecibido.getText());
 
             //Ver si cubre el total de la venta y si hay mas de un producto en la venta 
-            if (recibido>=totalCompra && totalProductos > 0)
+            if (recibido>=totalCompra && totalProductos > 0){
 
                 //Activar el boton finalizar de ser asi
                 viewPuntoVenta.botonFinalizar.setEnabled(true);
-            else
-                viewPuntoVenta.botonFinalizar.setEnabled(false);
 
+                //Calcular y mostrar el cambio
+                viewPuntoVenta.labelCambio.setVisible(true);
+                double cambio = recibido-totalCompra;
+                viewPuntoVenta.labelCambio.setText(String.format("Cambio: $%.2f", cambio));
+
+            } //End if
+
+            else{
+                viewPuntoVenta.botonFinalizar.setEnabled(false);
+                viewPuntoVenta.labelCambio.setVisible(false);
+
+            } //End if
 
         } //End try
 
         //En caso que el campo de recibido no tenga un valor numerico
         catch (NumberFormatException excepcion){
             viewPuntoVenta.botonFinalizar.setEnabled(false);
+            viewPuntoVenta.labelCambio.setVisible(false);
         } //End catch
 
     } //End validarActivacionBotonFinalizar
