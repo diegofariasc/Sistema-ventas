@@ -40,7 +40,7 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
     Color       colorEstilo;
 
     boolean     seAceptaLaAccion;       // Guardar si el usuario acepta
-    double      cantidadAgregar;        // Valor dado en el dialogo
+    double      cantidadAgregar = 1;    // Valor dado en el dialogo
     String      nombreProducto;         // Datos a mostrar
     int         unidadVenta;
 
