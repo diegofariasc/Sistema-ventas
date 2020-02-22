@@ -177,6 +177,7 @@ public class InterfazAgregarProducto extends JDialog implements View {
         botonCancelar.setLocation(LARGO_VENTANA-225,ALTO_VENTANA-63);
         botonCancelar.setSize(100,25);
         botonCancelar.setForeground(Color.WHITE);
+        botonCancelar.setOpaque(true);
         botonCancelar.setBackground(new Color(84,84,84));
         botonCancelar.setFocusPainted(false);
         botonCancelar.setBorder(null);
@@ -191,6 +192,7 @@ public class InterfazAgregarProducto extends JDialog implements View {
         botonAceptar.setForeground(Color.WHITE);
         botonAceptar.setBackground(new Color(84,84,84));
         botonAceptar.setFocusPainted(false);
+        botonAceptar.setOpaque(true);
         botonAceptar.setBorder(null);
         botonAceptar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         botonAceptar.setEnabled(false);

@@ -115,6 +115,7 @@ public class InterfazProductos extends JDialog implements View {
         botonBuscar.setSize(21,21);
         botonBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonBuscar.setBorderPainted(false);
+        botonBuscar.setOpaque(true);
         botonBuscar.setFocusPainted(false);
         botonBuscar.setBackground(colorEstilo);
         botonBuscar.setToolTipText("Buscar productos que contengan el nombre dado");

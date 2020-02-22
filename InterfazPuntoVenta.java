@@ -129,6 +129,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         botonAgregar.setSize(95,21);
         botonAgregar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonAgregar.setFocusPainted(false);
+        botonAgregar.setOpaque(true);
         botonAgregar.setBackground(colorEstilo);
         botonAgregar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         botonAgregar.setForeground(Color.WHITE);
@@ -142,6 +143,7 @@ public class InterfazPuntoVenta extends JFrame implements View {
         botonFinalizar.setSize(115,30);
         botonFinalizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         botonFinalizar.setFocusPainted(false);
+        botonFinalizar.setOpaque(true);
         botonFinalizar.setBackground(colorEstilo);
         botonFinalizar.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         botonFinalizar.setForeground(Color.WHITE);

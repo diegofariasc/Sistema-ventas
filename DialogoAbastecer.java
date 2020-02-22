@@ -94,6 +94,7 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
         botonCancelar.setForeground(Color.WHITE);
         botonCancelar.setBackground(new Color(84,84,84));
         botonCancelar.setFocusPainted(false);
+        botonCancelar.setOpaque(true);
         botonCancelar.setBorder(null);
         botonCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         botonCancelar.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -105,6 +106,7 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
         botonAceptar.setSize(100,25);
         botonAceptar.setForeground(Color.WHITE);
         botonAceptar.setBackground(new Color(84,84,84));
+        botonAceptar.setOpaque(true);
         botonAceptar.setFocusPainted(false);
         botonAceptar.setBorder(null);
         botonAceptar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
@@ -214,7 +216,7 @@ public class DialogoAbastecer extends JDialog implements ActionListener, KeyList
      * @param evento Con los datos del evento del cual deriva su invocacion
      */     
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent evento) {
         try {
             
             //Asignar cantidadAgregar dependiendo la unidad de venta 

@@ -96,6 +96,7 @@ public class Dialogo extends JDialog implements ActionListener {
         botonCancelar.setForeground(Color.WHITE);
         botonCancelar.setBackground(new Color(84,84,84));
         botonCancelar.setFocusPainted(false);
+        botonCancelar.setOpaque(false);
         botonCancelar.setVisible(tipoMensaje==MENSAJE_ADVERTENCIA);
         botonCancelar.setBorder(null);
         botonCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
@@ -109,6 +110,7 @@ public class Dialogo extends JDialog implements ActionListener {
         botonAceptar.setForeground(Color.WHITE);
         botonAceptar.setBackground(new Color(84,84,84));
         botonAceptar.setFocusPainted(false);
+        botonAceptar.setOpaque(true);
         botonAceptar.setBorder(null);
         botonAceptar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         botonAceptar.setCursor(new Cursor(Cursor.HAND_CURSOR));
