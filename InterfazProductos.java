@@ -223,8 +223,8 @@ public class InterfazProductos extends JDialog implements View {
 
         //Etiqueta para indicar el funcionamiento del boton regresar
         labelDescripcionRegresar = new JLabel("Regresar");
-        labelDescripcionRegresar.setLocation(LARGO_VENTANA-73,37);
-        labelDescripcionRegresar.setSize(51,20);
+        labelDescripcionRegresar.setLocation(LARGO_VENTANA-76,37);
+        labelDescripcionRegresar.setSize(57,20);
         labelDescripcionRegresar.setHorizontalAlignment(JLabel.CENTER);
         labelDescripcionRegresar.setForeground(Color.WHITE);
         labelDescripcionRegresar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
